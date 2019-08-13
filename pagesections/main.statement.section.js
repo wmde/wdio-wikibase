@@ -55,7 +55,7 @@ let MainStatementSection = ( Base ) => class extends Base {
 		this.mainStatementsContainer.$( this.constructor.STATEMENT_WIDGET_SELECTORS.EDIT_INPUT_VALUE ).waitForExist( null, true );
 	}
 
-	addReferenceToNthStatementOfStatementGroup( index, propertyId, referencePropety, referenceValue ) {
+	addReferenceToNthStatementOfStatementGroup( index, propertyId, referenceProperty, referenceValue ) {
 		var self = this,
 			statementGroup = $( '#' + propertyId ),
 			statements = statementGroup.$$( '.wikibase-statementview' ),
@@ -69,7 +69,7 @@ let MainStatementSection = ( Base ) => class extends Base {
 		}
 		referencesContainer.$( this.constructor.TOOLBAR_WIDGET_SELECTORS.ADD_BUTTON ).click();
 		referencesContainer.waitForVisible( this.constructor.STATEMENT_WIDGET_SELECTORS.EDIT_INPUT_PROPERTY );
-		referencesContainer.$( this.constructor.STATEMENT_WIDGET_SELECTORS.EDIT_INPUT_PROPERTY ).setValue( referencePropety );
+		referencesContainer.$( this.constructor.STATEMENT_WIDGET_SELECTORS.EDIT_INPUT_PROPERTY ).setValue( referenceProperty );
 
 		referencesContainer.waitForExist( this.constructor.STATEMENT_WIDGET_SELECTORS.EDIT_INPUT_VALUE );
 		referencesContainer.$( this.constructor.STATEMENT_WIDGET_SELECTORS.EDIT_INPUT_VALUE ).setValue( referenceValue );
