@@ -1,6 +1,6 @@
 'use strict';
 
-let MainStatementSection = ( Base ) => class extends Base {
+const MainStatementSection = ( Base ) => class extends Base {
 
 	static get STATEMENT_WIDGET_SELECTORS() {
 		return {
@@ -43,21 +43,31 @@ let MainStatementSection = ( Base ) => class extends Base {
 		this.addMainStatementLink.waitForVisible();
 		this.addMainStatementLink.click();
 
-		this.mainStatementsContainer.$( this.constructor.STATEMENT_WIDGET_SELECTORS.EDIT_INPUT_PROPERTY ).setValue( property );
-		this.mainStatementsContainer.$( this.constructor.STATEMENT_WIDGET_SELECTORS.EDIT_INPUT_VALUE ).waitForVisible();
-		this.mainStatementsContainer.$( this.constructor.STATEMENT_WIDGET_SELECTORS.EDIT_INPUT_VALUE ).setValue( value );
+		this.mainStatementsContainer.$(
+			this.constructor.STATEMENT_WIDGET_SELECTORS.EDIT_INPUT_PROPERTY
+		).setValue( property );
+		this.mainStatementsContainer.$(
+			this.constructor.STATEMENT_WIDGET_SELECTORS.EDIT_INPUT_VALUE
+		).waitForVisible();
+		this.mainStatementsContainer.$(
+			this.constructor.STATEMENT_WIDGET_SELECTORS.EDIT_INPUT_VALUE
+		).setValue( value );
 
-		this.mainStatementsContainer.$( this.constructor.TOOLBAR_WIDGET_SELECTORS.SAVE_BUTTON ).waitUntil( function () {
-			return self.mainStatementsContainer.$( self.constructor.TOOLBAR_WIDGET_SELECTORS.SAVE_BUTTON ).getAttribute( 'aria-disabled' ) === 'false';
+		this.mainStatementsContainer.$( this.constructor.TOOLBAR_WIDGET_SELECTORS.SAVE_BUTTON ).waitUntil( () => {
+			return self.mainStatementsContainer.$(
+				self.constructor.TOOLBAR_WIDGET_SELECTORS.SAVE_BUTTON
+			).getAttribute( 'aria-disabled' ) === 'false';
 		} );
 		this.mainStatementsContainer.$( this.constructor.TOOLBAR_WIDGET_SELECTORS.SAVE_BUTTON ).click();
 
-		this.mainStatementsContainer.$( this.constructor.STATEMENT_WIDGET_SELECTORS.EDIT_INPUT_VALUE ).waitForExist( null, true );
+		this.mainStatementsContainer.$(
+			this.constructor.STATEMENT_WIDGET_SELECTORS.EDIT_INPUT_VALUE
+		).waitForExist( null, true );
 	}
 
 	addReferenceToNthStatementOfStatementGroup( index, propertyId, referenceProperty, referenceValue ) {
 		var self = this,
-			statementGroup = $( '#' + propertyId ),
+			statementGroup = $( `#${propertyId}` ),
 			statements = statementGroup.$$( '.wikibase-statementview' ),
 			statement = statements[ index ],
 			referencesContainer = statement.$( '.wikibase-statementview-references-container' );
@@ -69,16 +79,24 @@ let MainStatementSection = ( Base ) => class extends Base {
 		}
 		referencesContainer.$( this.constructor.TOOLBAR_WIDGET_SELECTORS.ADD_BUTTON ).click();
 		referencesContainer.waitForVisible( this.constructor.STATEMENT_WIDGET_SELECTORS.EDIT_INPUT_PROPERTY );
-		referencesContainer.$( this.constructor.STATEMENT_WIDGET_SELECTORS.EDIT_INPUT_PROPERTY ).setValue( referenceProperty );
+		referencesContainer.$(
+			this.constructor.STATEMENT_WIDGET_SELECTORS.EDIT_INPUT_PROPERTY
+		).setValue( referenceProperty );
 
 		referencesContainer.waitForExist( this.constructor.STATEMENT_WIDGET_SELECTORS.EDIT_INPUT_VALUE );
-		referencesContainer.$( this.constructor.STATEMENT_WIDGET_SELECTORS.EDIT_INPUT_VALUE ).setValue( referenceValue );
+		referencesContainer.$(
+			this.constructor.STATEMENT_WIDGET_SELECTORS.EDIT_INPUT_VALUE
+		).setValue( referenceValue );
 		statementGroup.$( this.constructor.TOOLBAR_WIDGET_SELECTORS.SAVE_BUTTON ).waitUntil( function () {
-			return self.mainStatementsContainer.$( self.constructor.TOOLBAR_WIDGET_SELECTORS.SAVE_BUTTON ).getAttribute( 'aria-disabled' ) === 'false';
+			return self.mainStatementsContainer.$(
+				self.constructor.TOOLBAR_WIDGET_SELECTORS.SAVE_BUTTON
+			).getAttribute( 'aria-disabled' ) === 'false';
 		} );
 		statementGroup.$( this.constructor.TOOLBAR_WIDGET_SELECTORS.SAVE_BUTTON ).click();
 
-		referencesContainer.$( this.constructor.STATEMENT_WIDGET_SELECTORS.EDIT_INPUT_VALUE ).waitForExist( null, true );
+		referencesContainer.$(
+			this.constructor.STATEMENT_WIDGET_SELECTORS.EDIT_INPUT_VALUE
+		).waitForExist( null, true );
 	}
 
 	/**
@@ -91,7 +109,7 @@ let MainStatementSection = ( Base ) => class extends Base {
 	 * @return {{value}}
 	 */
 	getNthStatementDataFromMainStatementGroup( index, propertyId ) {
-		let statementGroup = $( '#' + propertyId ),
+		const statementGroup = $( `#${propertyId}` ),
 			statements = statementGroup.$$( '.wikibase-statementview' ),
 			statement = statements[ index ];
 

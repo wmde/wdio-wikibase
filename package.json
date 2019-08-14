@@ -12,8 +12,15 @@
 	"engines": {
 		"node": ">=8.0"
 	},
+	"scripts": {
+		"test": "eslint ."
+	},
 	"peerDependencies": {
 		"mwbot": "^1.0.10",
 		"wdio-mediawiki": "^0.3.0"
+	},
+	"devDependencies": {
+		"eslint": "^6.1.0",
+		"eslint-config-wikimedia": "^0.13.1"
 	}
 }

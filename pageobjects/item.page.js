@@ -27,7 +27,7 @@ class ItemPage extends PageMixture {
 	}
 
 	open( entityId ) {
-		super.openTitle( 'Special:EntityPage/' + entityId );
+		super.openTitle( `Special:EntityPage/${entityId}` );
 	}
 
 	get statements() {
@@ -63,24 +63,24 @@ class ItemPage extends PageMixture {
 	}
 
 	get descriptionInputField() {
-		return $( this.constructor.ITEM_WIDGET_SELECTORES.ITEM_DESCRIPTION_INPUT);
+		return $( this.constructor.ITEM_WIDGET_SELECTORES.ITEM_DESCRIPTION_INPUT );
 	}
 
-  	get firstQualifier() {
+	get firstQualifier() {
 		return $( this.constructor.ITEM_WIDGET_SELECTORES.QUALIFIER_VALUE );
-  	}
+	}
 
-  	get firstReference() {
+	get firstReference() {
 		return $( this.constructor.ITEM_WIDGET_SELECTORES.REFERENCE_VALUE );
-  	}
+	}
 
 	getNthQualifierPropertyInput( statement, qualifierIndex ) {
-		let qualifier = statement.$$( this.constructor.ITEM_WIDGET_SELECTORES.QUALIFIERS )[ qualifierIndex ];
+		const qualifier = statement.$$( this.constructor.ITEM_WIDGET_SELECTORES.QUALIFIERS )[ qualifierIndex ];
 		return qualifier.$( this.constructor.ITEM_WIDGET_SELECTORES.PROPERTY_INPUT );
 	}
 
 	getNthReferencePropertyInput( statement, referenceIndex ) {
-		let reference = statement.$$( this.constructor.ITEM_WIDGET_SELECTORES.REFERENCES )[ referenceIndex ];
+		const reference = statement.$$( this.constructor.ITEM_WIDGET_SELECTORES.REFERENCES )[ referenceIndex ];
 		return reference.$( this.constructor.ITEM_WIDGET_SELECTORES.PROPERTY_INPUT );
 	}
 
@@ -99,7 +99,7 @@ class ItemPage extends PageMixture {
 		this.recentChanges.click();
 		this.lastChangeHistory.waitForExist( 1000 );
 		this.lastChangeHistory.click();
-		let revisionList = $( this.constructor.ITEM_WIDGET_SELECTORES.REVISION );
+		const revisionList = $( this.constructor.ITEM_WIDGET_SELECTORES.REVISION );
 		revisionList.$( this.constructor.ITEM_WIDGET_SELECTORES.REVISION_DATE_LINK ).waitForExist();
 		revisionList.$( this.constructor.ITEM_WIDGET_SELECTORES.REVISION_DATE_LINK ).click();
 	}
