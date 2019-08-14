@@ -10,7 +10,7 @@
 		"wdio-plugin"
 	],
 	"engines": {
-		"node": ">=6.0"
+		"node": ">=8.0"
 	},
 	"peerDependencies": {
 		"mwbot": "^1.0.10",
