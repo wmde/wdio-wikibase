@@ -1,6 +1,6 @@
 'use strict';
 
-let ComponentInteraction = ( Base ) => class extends Base {
+const ComponentInteraction = ( Base ) => class extends Base {
 
 	static get OOUI_SELECTORS() {
 		return {
@@ -27,12 +27,8 @@ let ComponentInteraction = ( Base ) => class extends Base {
 	setValueOnComboboxElement( element, value ) {
 		element.$( 'input' ).setValue( value );
 		browser.waitUntil( () => {
-			return (
-				browser.isVisible(
-					this.constructor.OOUI_SELECTORS.OVERLAY +
-					' ' +
-					this.constructor.OOUI_SELECTORS.OPTION_WIDGET_SELECTED
-				)
+			return browser.isVisible(
+				`${this.constructor.OOUI_SELECTORS.OVERLAY} ${this.constructor.OOUI_SELECTORS.OPTION_WIDGET_SELECTED}`
 			);
 		} );
 		// close suggestion overlay

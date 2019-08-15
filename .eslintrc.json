@@ -1,0 +1,19 @@
+{
+	"extends": "wikimedia/server",
+	"env": {
+		"commonjs": true,
+		"es6": true,
+		"mocha": true,
+		"node": true
+	},
+	"globals": {
+		"browser": false,
+		"$": false
+	},
+	"parserOptions": {
+		"ecmaVersion": 6
+	},
+	"rules": {
+		"max-len": [ "error", 120 ]
+	}
+}
