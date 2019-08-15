@@ -16,8 +16,8 @@ class ItemPage extends PageMixture {
 			PROPERTY_INPUT: '.ui-entityselector-input',
 			VALUE_INPUT: '.valueview-input',
 			ITEM_DESCRIPTION_INPUT: '.wikibase-descriptionview-text .wikibase-descriptionview-input',
-			QUALIFIERS: '.wikibase-statementview-qualifiers .listview-item',
-			REFERENCES: '.wikibase-statementview-references',
+			QUALIFIER_VALUE: '.wikibase-statementview-qualifiers .listview-item:first-child .valueview-input',
+			REFERENCE_VALUE: '.wikibase-statementview-references .listview-item:first-child .valueview-input',
 			NTH_ELEMENT: '.wikibase-listview > .listview-item',
 			RECENT_CHANGES: '#n-recentchanges',
 			LASTCHANGE_HISTORY: '.mw-changeslist-last .mw-changeslist-history',
@@ -63,27 +63,25 @@ class ItemPage extends PageMixture {
 	}
 
 	get descriptionInputField() {
-		return $( this.constructor.ITEM_WIDGET_SELECTORES.ITEM_DESCRIPTION_INPUT );
+		return $( this.constructor.ITEM_WIDGET_SELECTORES.ITEM_DESCRIPTION_INPUT);
 	}
+
+  	get firstQualifier() {
+		return $( this.constructor.ITEM_WIDGET_SELECTORES.QUALIFIER_VALUE );
+  	}
+
+  	get firstReference() {
+		return $( this.constructor.ITEM_WIDGET_SELECTORES.REFERENCE_VALUE );
+  	}
 
 	getNthQualifierPropertyInput( statement, qualifierIndex ) {
 		let qualifier = statement.$$( this.constructor.ITEM_WIDGET_SELECTORES.QUALIFIERS )[ qualifierIndex ];
 		return qualifier.$( this.constructor.ITEM_WIDGET_SELECTORES.PROPERTY_INPUT );
 	}
 
-	getNthQualifierValueInput( statement, qualifierIndex ) {
-		let qualifier = statement.$$( this.constructor.ITEM_WIDGET_SELECTORES.QUALIFIERS )[ qualifierIndex ];
-		return qualifier.$( this.constructor.ITEM_WIDGET_SELECTORES.VALUE_INPUT );
-	}
-
 	getNthReferencePropertyInput( statement, referenceIndex ) {
 		let reference = statement.$$( this.constructor.ITEM_WIDGET_SELECTORES.REFERENCES )[ referenceIndex ];
 		return reference.$( this.constructor.ITEM_WIDGET_SELECTORES.PROPERTY_INPUT );
-	}
-
-	getNthReferenceValueInput( statement, referenceIndex ) {
-		let reference = statement.$$( this.constructor.ITEM_WIDGET_SELECTORES.REFERENCES )[ referenceIndex ];
-		return reference.$( this.constructor.ITEM_WIDGET_SELECTORES.VALUE_INPUT );
 	}
 
 	editItemDescription( description ) {
