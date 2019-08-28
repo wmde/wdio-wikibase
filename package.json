@@ -24,7 +24,7 @@
 		"wdio-mediawiki": "^0.3.0"
 	},
 	"devDependencies": {
-		"eslint": "^6.1.0",
+		"eslint": "^6.2.2",
 		"eslint-config-wikimedia": "^0.13.1"
 	}
 }
