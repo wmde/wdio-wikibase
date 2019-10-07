@@ -26,6 +26,14 @@ class ItemPage extends PageMixture {
 		};
 	}
 
+	static get GENERAL_SELECTORS() {
+		const xpathVisibleCondition = 'not(contains(@style,"display: none"))';
+
+		return {
+			ENTITY_SUGGESTOR_SUGGESTION_LABEL: `//ul[${xpathVisibleCondition}]//span[@class="ui-entityselector-label"]`
+		};
+	}
+
 	open( entityId ) {
 		super.openTitle( `Special:EntityPage/${entityId}` );
 	}
@@ -82,6 +90,14 @@ class ItemPage extends PageMixture {
 	getNthReferencePropertyInput( statement, referenceIndex ) {
 		const reference = statement.$$( this.constructor.ITEM_WIDGET_SELECTORES.REFERENCES )[ referenceIndex ];
 		return reference.$( this.constructor.ITEM_WIDGET_SELECTORES.PROPERTY_INPUT );
+	}
+
+	selectSuggestedProperty( propertyId ) {
+		const suggestionLabelSelector = this.constructor.GENERAL_SELECTORS.ENTITY_SUGGESTOR_SUGGESTION_LABEL;
+		const suggestionSelector = `${suggestionLabelSelector}[text() = "${propertyId}"]`;
+
+		$( suggestionSelector ).waitForVisible();
+		$( suggestionSelector ).click();
 	}
 
 	editItemDescription( description ) {
