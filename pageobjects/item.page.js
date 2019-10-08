@@ -92,9 +92,9 @@ class ItemPage extends PageMixture {
 		return reference.$( this.constructor.ITEM_WIDGET_SELECTORES.PROPERTY_INPUT );
 	}
 
-	selectSuggestedProperty( propertyId ) {
+	selectSuggestedEntity( entityId ) {
 		const suggestionLabelSelector = this.constructor.GENERAL_SELECTORS.ENTITY_SUGGESTOR_SUGGESTION_LABEL;
-		const suggestionSelector = `${suggestionLabelSelector}[text() = "${propertyId}"]`;
+		const suggestionSelector = `${suggestionLabelSelector}[text() = "${entityId}"]`;
 
 		$( suggestionSelector ).waitForVisible();
 		$( suggestionSelector ).click();
