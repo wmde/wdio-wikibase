@@ -27,10 +27,10 @@ class ItemPage extends PageMixture {
 	}
 
 	static get GENERAL_SELECTORS() {
-		const xpathVisibleCondition = 'not(contains(@style,"display: none"))';
+		const visibleCondition = 'not(contains(@style,"display: none"))';
 
 		return {
-			ENTITY_SUGGESTOR_SUGGESTION_LABEL: `//ul[${xpathVisibleCondition}]//span[@class="ui-entityselector-label"]`
+			VISIBLE_ENTITY_SUGGESTION: `//ul[contains(@class, "ui-suggester-list")][${visibleCondition}]//li`
 		};
 	}
 
@@ -92,12 +92,9 @@ class ItemPage extends PageMixture {
 		return reference.$( this.constructor.ITEM_WIDGET_SELECTORES.PROPERTY_INPUT );
 	}
 
-	selectSuggestedEntity( entityId ) {
-		const suggestionLabelSelector = this.constructor.GENERAL_SELECTORS.ENTITY_SUGGESTOR_SUGGESTION_LABEL;
-		const suggestionSelector = `${suggestionLabelSelector}[text() = "${entityId}"]`;
-
-		$( suggestionSelector ).waitForVisible();
-		$( suggestionSelector ).click();
+	selectFirstSuggestedEntity() {
+		$( this.constructor.GENERAL_SELECTORS.VISIBLE_ENTITY_SUGGESTION ).waitForVisible();
+		$( this.constructor.GENERAL_SELECTORS.VISIBLE_ENTITY_SUGGESTION ).click();
 	}
 
 	editItemDescription( description ) {
