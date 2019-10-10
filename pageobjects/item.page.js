@@ -26,14 +26,6 @@ class ItemPage extends PageMixture {
 		};
 	}
 
-	static get GENERAL_SELECTORS() {
-		const visibleCondition = 'not(contains(@style,"display: none"))';
-
-		return {
-			VISIBLE_ENTITY_SUGGESTION: `//ul[contains(@class, "ui-suggester-list")][${visibleCondition}]//li`
-		};
-	}
-
 	open( entityId ) {
 		super.openTitle( `Special:EntityPage/${entityId}` );
 	}
@@ -90,11 +82,6 @@ class ItemPage extends PageMixture {
 	getNthReferencePropertyInput( statement, referenceIndex ) {
 		const reference = statement.$$( this.constructor.ITEM_WIDGET_SELECTORES.REFERENCES )[ referenceIndex ];
 		return reference.$( this.constructor.ITEM_WIDGET_SELECTORES.PROPERTY_INPUT );
-	}
-
-	selectFirstSuggestedEntity() {
-		$( this.constructor.GENERAL_SELECTORS.VISIBLE_ENTITY_SUGGESTION ).waitForVisible();
-		$( this.constructor.GENERAL_SELECTORS.VISIBLE_ENTITY_SUGGESTION ).click();
 	}
 
 	editItemDescription( description ) {

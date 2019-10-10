@@ -3,12 +3,15 @@
 const ComponentInteraction = ( Base ) => class extends Base {
 
 	static get OOUI_SELECTORS() {
+		const visibleCondition = 'not(contains(@style,"display: none"))';
+
 		return {
 			LOOKUP_OPTION_WIDGET: '.oo-ui-lookupElement-menu .oo-ui-optionWidget',
 			MULTI_OPTION_WIDGET: '.oo-ui-optionWidget',
 			OPTION_WIDGET_SELECTED: '.oo-ui-optionWidget-selected',
 			OVERLAY: '.oo-ui-defaultOverlay',
-			COMBOBOX_DROPDOWN: '.oo-ui-comboBoxInputWidget-dropdownButton'
+			COMBOBOX_DROPDOWN: '.oo-ui-comboBoxInputWidget-dropdownButton',
+			VISIBLE_ENTITY_SUGGESTION: `//ul[contains(@class, "ui-suggester-list")][${visibleCondition}]//li`
 		};
 	}
 
@@ -33,6 +36,11 @@ const ComponentInteraction = ( Base ) => class extends Base {
 		} );
 		// close suggestion overlay
 		element.$( this.constructor.OOUI_SELECTORS.COMBOBOX_DROPDOWN ).click();
+	}
+
+	selectFirstSuggestedEntityOnEntitySelector() {
+		$( this.constructor.GENERAL_SELECTORS.VISIBLE_ENTITY_SUGGESTION ).waitForVisible();
+		$( this.constructor.GENERAL_SELECTORS.VISIBLE_ENTITY_SUGGESTION ).click();
 	}
 };
 
