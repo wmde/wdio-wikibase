@@ -39,8 +39,8 @@ const ComponentInteraction = ( Base ) => class extends Base {
 	}
 
 	selectFirstSuggestedEntityOnEntitySelector() {
-		$( this.constructor.GENERAL_SELECTORS.VISIBLE_ENTITY_SUGGESTION ).waitForVisible();
-		$( this.constructor.GENERAL_SELECTORS.VISIBLE_ENTITY_SUGGESTION ).click();
+		$( this.constructor.OOUI_SELECTORS.VISIBLE_ENTITY_SUGGESTION ).waitForVisible();
+		$( this.constructor.OOUI_SELECTORS.VISIBLE_ENTITY_SUGGESTION ).click();
 	}
 };
 
