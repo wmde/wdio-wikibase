@@ -46,6 +46,9 @@ const MainStatementSection = ( Base ) => class extends Base {
 		this.mainStatementsContainer.$(
 			this.constructor.STATEMENT_WIDGET_SELECTORS.EDIT_INPUT_PROPERTY
 		).setValue( property );
+
+		this.selectFirstSuggestedEntityOnEntitySelector();
+
 		this.mainStatementsContainer.$(
 			this.constructor.STATEMENT_WIDGET_SELECTORS.EDIT_INPUT_VALUE
 		).waitForVisible();
@@ -82,6 +85,8 @@ const MainStatementSection = ( Base ) => class extends Base {
 		referencesContainer.$(
 			this.constructor.STATEMENT_WIDGET_SELECTORS.EDIT_INPUT_PROPERTY
 		).setValue( referenceProperty );
+
+		this.selectFirstSuggestedEntityOnEntitySelector();
 
 		referencesContainer.waitForExist( this.constructor.STATEMENT_WIDGET_SELECTORS.EDIT_INPUT_VALUE );
 		referencesContainer.$(
