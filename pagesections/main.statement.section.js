@@ -123,6 +123,59 @@ const MainStatementSection = ( Base ) => class extends Base {
 		};
 	}
 
+	/**
+	 * Click the save button of a specific statement within a statement group
+	 *
+	 * @param {int} index of the statement within the group
+	 * @param {string} propertyId
+	 */
+	clickSaveOnStatement( index, propertyId ) {
+		var self = this;
+		const statementGroup = $( `#${propertyId}` );
+		const statements = statementGroup.$$( '.wikibase-statementview' );
+		const statement = statements[ index ];
+
+		statement.$( this.constructor.TOOLBAR_WIDGET_SELECTORS.SAVE_BUTTON ).waitUntil( function () {
+			return self.mainStatementsContainer.$(
+				self.constructor.TOOLBAR_WIDGET_SELECTORS.SAVE_BUTTON
+			).getAttribute( 'aria-disabled' ) === 'false';
+		} );
+		statement.$( this.constructor.TOOLBAR_WIDGET_SELECTORS.SAVE_BUTTON ).click();
+	}
+
+	/**
+	 * Click the edit button of a specific statement with a statement group
+	 *
+	 * @param {*} index
+	 * @param {*} propertyId
+	 */
+	clickEditOnStatement( index, propertyId ) {
+		const statementGroup = $( `#${propertyId}` );
+		const statements = statementGroup.$$( '.wikibase-statementview' );
+		const statement = statements[ index ];
+
+		statement.$( this.constructor.TOOLBAR_WIDGET_SELECTORS.EDIT_BUTTON ).waitForExist();
+		statement.$( this.constructor.TOOLBAR_WIDGET_SELECTORS.EDIT_BUTTON ).click();
+	}
+
+	/**
+	 * Enter edit mode of a specific statement in a statement, set the value and save
+	 *
+	 * @param {*} index
+	 * @param {*} propertyId
+	 * @param {*} value
+	 */
+	editStatementValue( index, propertyId, value ) {
+		this.clickEditOnStatement( index, propertyId );
+		this.mainStatementsContainer.$(
+			this.constructor.STATEMENT_WIDGET_SELECTORS.EDIT_INPUT_VALUE
+		).waitForVisible();
+		this.mainStatementsContainer.$(
+			this.constructor.STATEMENT_WIDGET_SELECTORS.EDIT_INPUT_VALUE
+		).setValue( value );
+		this.clickSaveOnStatement( index, propertyId );
+	}
+
 };
 
 module.exports = MainStatementSection;
