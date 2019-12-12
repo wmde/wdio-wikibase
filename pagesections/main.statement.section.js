@@ -39,7 +39,6 @@ const MainStatementSection = ( Base ) => class extends Base {
 	 * @param {string} value
 	 */
 	addMainStatement( property, value ) {
-		var self = this;
 		this.addMainStatementLink.waitForVisible();
 		this.addMainStatementLink.click();
 
@@ -56,12 +55,7 @@ const MainStatementSection = ( Base ) => class extends Base {
 			this.constructor.STATEMENT_WIDGET_SELECTORS.EDIT_INPUT_VALUE
 		).setValue( value );
 
-		this.mainStatementsContainer.$( this.constructor.TOOLBAR_WIDGET_SELECTORS.SAVE_BUTTON ).waitUntil( () => {
-			return self.mainStatementsContainer.$(
-				self.constructor.TOOLBAR_WIDGET_SELECTORS.SAVE_BUTTON
-			).getAttribute( 'aria-disabled' ) === 'false';
-		} );
-		this.mainStatementsContainer.$( this.constructor.TOOLBAR_WIDGET_SELECTORS.SAVE_BUTTON ).click();
+		this.clickSaveOnStatementElement( this.mainStatementsContainer );
 
 		this.mainStatementsContainer.$(
 			this.constructor.STATEMENT_WIDGET_SELECTORS.EDIT_INPUT_VALUE
@@ -69,10 +63,7 @@ const MainStatementSection = ( Base ) => class extends Base {
 	}
 
 	addReferenceToNthStatementOfStatementGroup( index, propertyId, referenceProperty, referenceValue ) {
-		var self = this,
-			statementGroup = $( `#${propertyId}` ),
-			statements = statementGroup.$$( '.wikibase-statementview' ),
-			statement = statements[ index ],
+		var statement = this.getStatementElement( index, propertyId ),
 			referencesContainer = statement.$( '.wikibase-statementview-references-container' );
 
 		if ( !referencesContainer.isVisible( this.constructor.TOOLBAR_WIDGET_SELECTORS.ADD_BUTTON ) ) {
@@ -92,12 +83,7 @@ const MainStatementSection = ( Base ) => class extends Base {
 		referencesContainer.$(
 			this.constructor.STATEMENT_WIDGET_SELECTORS.EDIT_INPUT_VALUE
 		).setValue( referenceValue );
-		statementGroup.$( this.constructor.TOOLBAR_WIDGET_SELECTORS.SAVE_BUTTON ).waitUntil( function () {
-			return self.mainStatementsContainer.$(
-				self.constructor.TOOLBAR_WIDGET_SELECTORS.SAVE_BUTTON
-			).getAttribute( 'aria-disabled' ) === 'false';
-		} );
-		statementGroup.$( this.constructor.TOOLBAR_WIDGET_SELECTORS.SAVE_BUTTON ).click();
+		this.clickSaveOnStatementElement( statement );
 
 		referencesContainer.$(
 			this.constructor.STATEMENT_WIDGET_SELECTORS.EDIT_INPUT_VALUE
@@ -121,6 +107,85 @@ const MainStatementSection = ( Base ) => class extends Base {
 		return {
 			value: statement.$( this.constructor.STATEMENT_WIDGET_SELECTORS.STATEMENT_VALUE ).getText()
 		};
+	}
+
+	/**
+	 * Click the save button of a specific statement within a statement group
+	 *
+	 * @param {int} index of the statement within the group
+	 * @param {string} propertyId
+	 */
+	clickSaveOnStatement( index, propertyId ) {
+		const statement = this.getStatementElement( index, propertyId );
+		this.clickSaveOnStatementElement( statement );
+	}
+
+	/**
+	 * Click save button in a statement element
+	 *
+	 * @private
+	 * @param {element} element
+	 */
+	clickSaveOnStatementElement( element ) {
+		var self = this;
+		element.$( this.constructor.TOOLBAR_WIDGET_SELECTORS.SAVE_BUTTON ).waitUntil( function () {
+			return self.mainStatementsContainer.$(
+				self.constructor.TOOLBAR_WIDGET_SELECTORS.SAVE_BUTTON
+			).getAttribute( 'aria-disabled' ) === 'false';
+		} );
+		element.$( this.constructor.TOOLBAR_WIDGET_SELECTORS.SAVE_BUTTON ).click();
+	}
+
+	/**
+	 * Click the edit button of a specific statement with a statement group
+	 *
+	 * @param {int} index
+	 * @param {string} propertyId
+	 */
+	clickEditOnStatement( index, propertyId ) {
+		const statement = this.getStatementElement( index, propertyId );
+		this.clickEditOnStatementElement( statement );
+	}
+
+	/**
+	 * Click edit button in a statement element
+	 *
+	 * @private
+	 * @param {element} element
+	 */
+	clickEditOnStatementElement( element ) {
+		element.$( this.constructor.TOOLBAR_WIDGET_SELECTORS.EDIT_BUTTON ).waitForExist();
+		element.$( this.constructor.TOOLBAR_WIDGET_SELECTORS.EDIT_BUTTON ).click();
+	}
+
+	/**
+	 * Enter edit mode of a specific statement in a statementGroup, set the value and save
+	 *
+	 * @param {int} index
+	 * @param {string} propertyId
+	 * @param {string} value
+	 */
+	editStatementValue( index, propertyId, value ) {
+		this.clickEditOnStatement( index, propertyId );
+		this.mainStatementsContainer.$(
+			this.constructor.STATEMENT_WIDGET_SELECTORS.EDIT_INPUT_VALUE
+		).waitForVisible();
+		this.mainStatementsContainer.$(
+			this.constructor.STATEMENT_WIDGET_SELECTORS.EDIT_INPUT_VALUE
+		).setValue( value );
+		this.clickSaveOnStatement( index, propertyId );
+	}
+
+	/**
+	 * Return statement element of a specific statement in a statementGroup
+	 *
+	 * @private
+	 * @param {int} index
+	 * @param {string} propertyId
+	 * @return {element}
+	 */
+	getStatementElement( index, propertyId ) {
+		return $( `#${propertyId}` ).$$( '.wikibase-statementview' )[ index ];
 	}
 
 };

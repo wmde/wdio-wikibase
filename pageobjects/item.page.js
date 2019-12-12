@@ -4,7 +4,8 @@ const Page = require( 'wdio-mediawiki/Page' ),
 	MixinBuilder = require( '../pagesections/mixinbuilder' ),
 	MainStatementSection = require( '../pagesections/main.statement.section' ),
 	ComponentInteraction = require( '../pagesections/ComponentInteraction' ),
-	PageMixture = MixinBuilder.mix( Page ).with( MainStatementSection, ComponentInteraction );
+	TaintedRefSection = require( '../pagesections/tainted.ref.section' ),
+	PageMixture = MixinBuilder.mix( Page ).with( MainStatementSection, ComponentInteraction, TaintedRefSection );
 
 class ItemPage extends PageMixture {
 	static get ITEM_WIDGET_SELECTORES() {
