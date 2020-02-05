@@ -15,7 +15,8 @@ const MainStatementSection = ( Base ) => class extends Base {
 			ADD_BUTTON: '.wikibase-toolbar-button-add',
 			EDIT_BUTTON: '.wikibase-toolbar-button-edit',
 			REMOVE_BUTTON: '.wikibase-toolbar-button-remove',
-			SAVE_BUTTON: '.wikibase-toolbar-button-save'
+			SAVE_BUTTON: '.wikibase-toolbar-button-save',
+			CANCEL_BUTTON: '.wikibase-toolbar-button-cancel'
 		};
 	}
 
@@ -121,6 +122,17 @@ const MainStatementSection = ( Base ) => class extends Base {
 	}
 
 	/**
+	 * Click the cancel button of a specific statement within a statement group
+	 *
+	 * @param {int} index of the statement within the group
+	 * @param {string} propertyId
+	 */
+	clickCancelOnStatement( index, propertyId ) {
+		const statement = this.getStatementElement( index, propertyId );
+		this.clickCancelOnStatementElement( statement );
+	}
+
+	/**
 	 * Click save button in a statement element
 	 *
 	 * @private
@@ -134,6 +146,22 @@ const MainStatementSection = ( Base ) => class extends Base {
 			).getAttribute( 'aria-disabled' ) === 'false';
 		} );
 		element.$( this.constructor.TOOLBAR_WIDGET_SELECTORS.SAVE_BUTTON ).click();
+	}
+
+	/**
+	 * Click cancel button in a statement element
+	 *
+	 * @private
+	 * @param {element} element
+	 */
+	clickCancelOnStatementElement( element ) {
+		var self = this;
+		element.$( this.constructor.TOOLBAR_WIDGET_SELECTORS.CANCEL_BUTTON ).waitUntil( function () {
+			return element.$(
+				self.constructor.TOOLBAR_WIDGET_SELECTORS.CANCEL_BUTTON
+			).getAttribute( 'aria-disabled' ) === 'false';
+		} );
+		element.$( this.constructor.TOOLBAR_WIDGET_SELECTORS.CANCEL_BUTTON ).click();
 	}
 
 	/**
