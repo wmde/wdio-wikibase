@@ -157,7 +157,7 @@ const MainStatementSection = ( Base ) => class extends Base {
 	clickCancelOnStatementElement( element ) {
 		var self = this;
 		element.$( this.constructor.TOOLBAR_WIDGET_SELECTORS.CANCEL_BUTTON ).waitUntil( function () {
-			return self.mainStatementsContainer.$(
+			return element.$(
 				self.constructor.TOOLBAR_WIDGET_SELECTORS.CANCEL_BUTTON
 			).getAttribute( 'aria-disabled' ) === 'false';
 		} );
