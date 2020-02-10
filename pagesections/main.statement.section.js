@@ -182,7 +182,7 @@ const MainStatementSection = ( Base ) => class extends Base {
 	 * @param {element} element
 	 */
 	clickEditOnStatementElement( element ) {
-		element.$( this.constructor.TOOLBAR_WIDGET_SELECTORS.EDIT_BUTTON ).waitForExist();
+		element.waitForVisible( this.constructor.TOOLBAR_WIDGET_SELECTORS.EDIT_BUTTON );
 		element.$( this.constructor.TOOLBAR_WIDGET_SELECTORS.EDIT_BUTTON ).click();
 	}
 
