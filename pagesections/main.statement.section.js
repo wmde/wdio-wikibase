@@ -40,7 +40,7 @@ const MainStatementSection = ( Base ) => class extends Base {
 	 * @param {string} value
 	 */
 	addMainStatement( property, value ) {
-		this.addMainStatementLink.waitForVisible();
+		this.addMainStatementLink.waitForDisplayed();
 		this.addMainStatementLink.click();
 
 		this.mainStatementsContainer.$(
@@ -51,7 +51,7 @@ const MainStatementSection = ( Base ) => class extends Base {
 
 		this.mainStatementsContainer.$(
 			this.constructor.STATEMENT_WIDGET_SELECTORS.EDIT_INPUT_VALUE
-		).waitForVisible();
+		).waitForDisplayed();
 		this.mainStatementsContainer.$(
 			this.constructor.STATEMENT_WIDGET_SELECTORS.EDIT_INPUT_VALUE
 		).setValue( value );
@@ -67,13 +67,13 @@ const MainStatementSection = ( Base ) => class extends Base {
 		var statement = this.getStatementElement( index, propertyId ),
 			referencesContainer = statement.$( '.wikibase-statementview-references-container' );
 
-		if ( !referencesContainer.isVisible( this.constructor.TOOLBAR_WIDGET_SELECTORS.ADD_BUTTON ) ) {
+		if ( !referencesContainer.isDisplayed( this.constructor.TOOLBAR_WIDGET_SELECTORS.ADD_BUTTON ) ) {
 			statement.$( '.wikibase-statementview-references-heading' ).click();
-			statement.waitForVisible( '.wikibase-statementview-references' );
-			referencesContainer.waitForVisible( this.constructor.TOOLBAR_WIDGET_SELECTORS.ADD_BUTTON );
+			statement.waitForDisplayed( '.wikibase-statementview-references' );
+			referencesContainer.waitForDisplayed( this.constructor.TOOLBAR_WIDGET_SELECTORS.ADD_BUTTON );
 		}
 		referencesContainer.$( this.constructor.TOOLBAR_WIDGET_SELECTORS.ADD_BUTTON ).click();
-		referencesContainer.waitForVisible( this.constructor.STATEMENT_WIDGET_SELECTORS.EDIT_INPUT_PROPERTY );
+		referencesContainer.waitForDisplayed( this.constructor.STATEMENT_WIDGET_SELECTORS.EDIT_INPUT_PROPERTY );
 		referencesContainer.$(
 			this.constructor.STATEMENT_WIDGET_SELECTORS.EDIT_INPUT_PROPERTY
 		).setValue( referenceProperty );
@@ -197,7 +197,7 @@ const MainStatementSection = ( Base ) => class extends Base {
 		this.clickEditOnStatement( index, propertyId );
 		this.mainStatementsContainer.$(
 			this.constructor.STATEMENT_WIDGET_SELECTORS.EDIT_INPUT_VALUE
-		).waitForVisible();
+		).waitForDisplayed();
 		this.mainStatementsContainer.$(
 			this.constructor.STATEMENT_WIDGET_SELECTORS.EDIT_INPUT_VALUE
 		).setValue( value );

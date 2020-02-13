@@ -6,7 +6,7 @@ const TaintedRefSection = ( Base ) => class extends Base {
 	}
 
 	get taintedRefIcon() {
-		return browser.element( this.constructor.TAINTED_REF_SELECTORS.TAINTED_ICON );
+		return $( this.constructor.TAINTED_REF_SELECTORS.TAINTED_ICON );
 	}
 };
 
