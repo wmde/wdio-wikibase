@@ -26,7 +26,7 @@ class WikibaseApi {
 		Object.assign( itemData, { labels }, data );
 
 		const bot = new MWBot( {
-			apiUrl: `${browser.options.baseUrl}/api.php`
+			apiUrl: `${browser.config.baseUrl}/api.php`
 		} );
 
 		return bot.getEditToken()
@@ -48,7 +48,7 @@ class WikibaseApi {
 		propertyData = Object.assign( {}, { datatype }, data );
 
 		const bot = new MWBot( {
-			apiUrl: `${browser.options.baseUrl}/api.php`
+			apiUrl: `${browser.config.baseUrl}/api.php`
 		} );
 
 		return bot.getEditToken()
@@ -68,7 +68,7 @@ class WikibaseApi {
 
 	getEntity( id ) {
 		const bot = new MWBot( {
-			apiUrl: `${browser.options.baseUrl}/api.php`
+			apiUrl: `${browser.config.baseUrl}/api.php`
 		} );
 		return new Promise( ( resolve, reject ) => {
 			bot.request( {
@@ -83,7 +83,7 @@ class WikibaseApi {
 
 	protectEntity( entityId ) {
 		const bot = new MWBot( {
-			apiUrl: `${browser.options.baseUrl}/api.php`
+			apiUrl: `${browser.config.baseUrl}/api.php`
 		} );
 		let entityTitle;
 
@@ -95,8 +95,8 @@ class WikibaseApi {
 		} ).then( ( getEntitiesResponse ) => {
 			entityTitle = getEntitiesResponse.entities[ entityId ].title;
 			return bot.loginGetEditToken( {
-				username: browser.options.username,
-				password: browser.options.password
+				username: browser.config.username,
+				password: browser.config.password
 			} );
 		} ).then( () => {
 			return bot.request( {

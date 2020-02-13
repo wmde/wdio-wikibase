@@ -17,20 +17,20 @@ const ComponentInteraction = ( Base ) => class extends Base {
 
 	setValueOnLookupElement( element, value ) {
 		element.$( 'input' ).setValue( value );
-		$( 'body' ).waitForVisible( this.constructor.OOUI_SELECTORS.LOOKUP_OPTION_WIDGET );
+		$( 'body' ).waitForDisplayed( this.constructor.OOUI_SELECTORS.LOOKUP_OPTION_WIDGET );
 		$( this.constructor.OOUI_SELECTORS.LOOKUP_OPTION_WIDGET ).click();
 	}
 
 	setSingleValueOnMultiselectElement( element, value ) {
 		element.$( 'input' ).setValue( value );
-		element.waitForVisible( this.constructor.OOUI_SELECTORS.MULTI_OPTION_WIDGET );
+		element.waitForDisplayed( this.constructor.OOUI_SELECTORS.MULTI_OPTION_WIDGET );
 		element.$( this.constructor.OOUI_SELECTORS.MULTI_OPTION_WIDGET ).click();
 	}
 
 	setValueOnComboboxElement( element, value ) {
 		element.$( 'input' ).setValue( value );
 		browser.waitUntil( () => {
-			return browser.isVisible(
+			return browser.isDisplayed(
 				`${this.constructor.OOUI_SELECTORS.OVERLAY} ${this.constructor.OOUI_SELECTORS.OPTION_WIDGET_SELECTED}`
 			);
 		} );
@@ -39,7 +39,7 @@ const ComponentInteraction = ( Base ) => class extends Base {
 	}
 
 	selectFirstSuggestedEntityOnEntitySelector() {
-		$( this.constructor.OOUI_SELECTORS.VISIBLE_ENTITY_SUGGESTION ).waitForVisible();
+		$( this.constructor.OOUI_SELECTORS.VISIBLE_ENTITY_SUGGESTION ).waitForDisplayed();
 		$( this.constructor.OOUI_SELECTORS.VISIBLE_ENTITY_SUGGESTION ).click();
 	}
 };
