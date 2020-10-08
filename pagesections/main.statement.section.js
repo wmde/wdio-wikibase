@@ -60,7 +60,7 @@ const MainStatementSection = ( Base ) => class extends Base {
 
 		this.mainStatementsContainer.$(
 			this.constructor.STATEMENT_WIDGET_SELECTORS.EDIT_INPUT_VALUE
-		).waitForExist( null, true );
+		).waitForExist( { reverse: true } );
 	}
 
 	addReferenceToNthStatementOfStatementGroup( index, propertyId, referenceProperty, referenceValue ) {
@@ -88,7 +88,7 @@ const MainStatementSection = ( Base ) => class extends Base {
 
 		referencesContainer.$(
 			this.constructor.STATEMENT_WIDGET_SELECTORS.EDIT_INPUT_VALUE
-		).waitForExist( null, true );
+		).waitForExist( { reverse: true } );
 	}
 
 	/**
