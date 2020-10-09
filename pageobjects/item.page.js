@@ -89,18 +89,18 @@ class ItemPage extends PageMixture {
 
 	editItemDescription( description ) {
 
-		this.editButton.waitForExist( 3000 );
+		this.editButton.waitForExist( { timeout: 3000 } );
 		browser.pause( 100 );
 		this.editButton.click();
 		this.descriptionInputField.waitForExist();
 		this.descriptionInputField.setValue( description );
-		this.saveButton.waitForExist( 1000 );
+		this.saveButton.waitForExist( { timeout: 1000 } );
 		this.saveButton.click();
 	}
 
 	goToPreviousRevision() {
 		this.recentChanges.click();
-		this.lastChangeHistory.waitForExist( 1000 );
+		this.lastChangeHistory.waitForExist( { timeout: 1000 } );
 		this.lastChangeHistory.click();
 		const revisionList = $( this.constructor.ITEM_WIDGET_SELECTORS.REVISION );
 		revisionList.$( this.constructor.ITEM_WIDGET_SELECTORS.REVISION_DATE_LINK ).waitForExist();
