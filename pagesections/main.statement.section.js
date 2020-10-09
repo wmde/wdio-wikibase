@@ -69,18 +69,18 @@ const MainStatementSection = ( Base ) => class extends Base {
 
 		if ( !referencesContainer.isDisplayed( this.constructor.TOOLBAR_WIDGET_SELECTORS.ADD_BUTTON ) ) {
 			statement.$( '.wikibase-statementview-references-heading' ).click();
-			statement.waitForDisplayed( '.wikibase-statementview-references' );
-			referencesContainer.waitForDisplayed( this.constructor.TOOLBAR_WIDGET_SELECTORS.ADD_BUTTON );
+			statement.$( '.wikibase-statementview-references' ).waitForDisplayed();
+			referencesContainer.$( this.constructor.TOOLBAR_WIDGET_SELECTORS.ADD_BUTTON ).waitForDisplayed();
 		}
 		referencesContainer.$( this.constructor.TOOLBAR_WIDGET_SELECTORS.ADD_BUTTON ).click();
-		referencesContainer.waitForDisplayed( this.constructor.STATEMENT_WIDGET_SELECTORS.EDIT_INPUT_PROPERTY );
+		referencesContainer.$( this.constructor.STATEMENT_WIDGET_SELECTORS.EDIT_INPUT_PROPERTY ).waitForDisplayed();
 		referencesContainer.$(
 			this.constructor.STATEMENT_WIDGET_SELECTORS.EDIT_INPUT_PROPERTY
 		).setValue( referenceProperty );
 
 		this.selectFirstSuggestedEntityOnEntitySelector();
 
-		referencesContainer.waitForExist( this.constructor.STATEMENT_WIDGET_SELECTORS.EDIT_INPUT_VALUE );
+		referencesContainer.$( this.constructor.STATEMENT_WIDGET_SELECTORS.EDIT_INPUT_VALUE ).waitForExist();
 		referencesContainer.$(
 			this.constructor.STATEMENT_WIDGET_SELECTORS.EDIT_INPUT_VALUE
 		).setValue( referenceValue );
