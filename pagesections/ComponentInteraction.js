@@ -17,13 +17,13 @@ const ComponentInteraction = ( Base ) => class extends Base {
 
 	setValueOnLookupElement( element, value ) {
 		element.$( 'input' ).setValue( value );
-		$( 'body' ).waitForDisplayed( this.constructor.OOUI_SELECTORS.LOOKUP_OPTION_WIDGET );
+		$( 'body' ).$( this.constructor.OOUI_SELECTORS.LOOKUP_OPTION_WIDGET ).waitForDisplayed();
 		$( this.constructor.OOUI_SELECTORS.LOOKUP_OPTION_WIDGET ).click();
 	}
 
 	setSingleValueOnMultiselectElement( element, value ) {
 		element.$( 'input' ).setValue( value );
-		element.waitForDisplayed( this.constructor.OOUI_SELECTORS.MULTI_OPTION_WIDGET );
+		element.$( this.constructor.OOUI_SELECTORS.MULTI_OPTION_WIDGET ).waitForDisplayed();
 		element.$( this.constructor.OOUI_SELECTORS.MULTI_OPTION_WIDGET ).click();
 	}
 
