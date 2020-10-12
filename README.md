@@ -10,3 +10,7 @@ This enables components from the pageobject to be used in the spec by calling It
 `ItemPage.addStatementLink.click();`
 
 To update or change the contents of this module, clone it locally and commit the changes. Once a new npm version will be released you can run an npm update on your Wikibase instance, after which your changes should be available to you locally.
+
+## Contributing
+
+Please file any bugs or issues with our issue-tracker at [phabricator.wikimedia.org](https://phabricator.wikimedia.org/maniphest/task/edit/form/1/?tags=Wikidata,Browser-Tests).
