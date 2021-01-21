@@ -30,9 +30,9 @@ const ComponentInteraction = ( Base ) => class extends Base {
 	setValueOnComboboxElement( element, value ) {
 		element.$( 'input' ).setValue( value );
 		browser.waitUntil( () => {
-			return browser.isDisplayed(
+			return $(
 				`${this.constructor.OOUI_SELECTORS.OVERLAY} ${this.constructor.OOUI_SELECTORS.OPTION_WIDGET_SELECTED}`
-			);
+			).isDisplayed();
 		} );
 		// close suggestion overlay
 		element.$( this.constructor.OOUI_SELECTORS.COMBOBOX_DROPDOWN ).click();
