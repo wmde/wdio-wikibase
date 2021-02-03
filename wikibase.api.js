@@ -7,14 +7,17 @@ class WikibaseApi {
 	/**
 	 * Create an item
 	 *
-	 * @param {string} [label] Optional English label of the item
+	 * @param {(string|Object)} [label] Optional English label of the item or object containing all labels
 	 * @param {Object} [data] Optional data to populate the item with
 	 * @return {Promise}
 	 */
 	createItem( label, data ) {
 		const itemData = {};
-		let labels = {};
-		if ( label ) {
+		let labels = null;
+
+		if ( typeof label === 'object' ) {
+			labels = label;
+		} else if ( label ) {
 			labels = {
 				en: {
 					language: 'en',
