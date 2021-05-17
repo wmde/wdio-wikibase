@@ -88,9 +88,10 @@ class ItemPage extends PageMixture {
 	}
 
 	editItemDescription( description ) {
-
-		this.editButton.waitForExist( { timeout: 3000 } );
-		browser.pause( 100 );
+		// Wait for the frontend to fully initialize first, so that we don't click on
+		// the link to Special:SetLabelDescriptionAliases, but use the JS version.
+		this.addStatementLink.waitForExist( { timeout: 3000 } );
+		this.editButton.waitForExist( { timeout: 1000 } );
 		this.editButton.click();
 		this.descriptionInputField.waitForExist();
 		this.descriptionInputField.setValue( description );
