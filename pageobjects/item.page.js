@@ -99,15 +99,6 @@ class ItemPage extends PageMixture {
 		this.saveButton.click();
 	}
 
-	goToPreviousRevision() {
-		this.recentChanges.click();
-		this.lastChangeHistory.waitForExist( { timeout: 1000 } );
-		this.lastChangeHistory.click();
-		const revisionList = $( this.constructor.ITEM_WIDGET_SELECTORS.REVISION );
-		revisionList.$( this.constructor.ITEM_WIDGET_SELECTORS.REVISION_DATE_LINK ).waitForExist();
-		revisionList.$( this.constructor.ITEM_WIDGET_SELECTORS.REVISION_DATE_LINK ).click();
-	}
-
 	isSaveButtonEnabled() {
 		return $( this.constructor.ITEM_WIDGET_SELECTORS.SAVE_BUTTON ).getAttribute( 'aria-disabled' ) === 'false';
 	}
