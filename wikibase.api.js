@@ -13,7 +13,7 @@ class WikibaseApi {
 	 */
 	createItem( label, data ) {
 		const itemData = {};
-		let labels = null;
+		let labels = {};
 
 		if ( typeof label === 'object' ) {
 			labels = label;
