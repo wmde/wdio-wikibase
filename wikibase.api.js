@@ -28,17 +28,13 @@ class WikibaseApi {
 
 		Object.assign( itemData, { labels }, data );
 
-		const bot = new MWBot( {
-			apiUrl: `${browser.config.baseUrl}/api.php`
-		} );
-
-		return bot.getEditToken()
+		return this.getBot().getEditToken()
 			.then( () => {
-				return bot.request( {
+				return this.getBot().request( {
 					action: 'wbeditentity',
 					new: 'item',
 					data: JSON.stringify( itemData ),
-					token: bot.editToken
+					token: this.getBot().editToken
 				} );
 			} ).then( ( response ) => {
 				return response.entity.id;
@@ -50,18 +46,14 @@ class WikibaseApi {
 
 		propertyData = Object.assign( {}, { datatype }, data );
 
-		const bot = new MWBot( {
-			apiUrl: `${browser.config.baseUrl}/api.php`
-		} );
-
-		return bot.getEditToken()
+		return this.getBot().getEditToken()
 			.then( () => {
 				return new Promise( ( resolve, reject ) => {
-					bot.request( {
+					this.getBot().request( {
 						action: 'wbeditentity',
 						new: 'property',
 						data: JSON.stringify( propertyData ),
-						token: bot.editToken
+						token: this.getBot().editToken
 					} ).then( ( response ) => {
 						resolve( response.entity.id );
 					}, reject );
@@ -70,14 +62,11 @@ class WikibaseApi {
 	}
 
 	getEntity( id ) {
-		const bot = new MWBot( {
-			apiUrl: `${browser.config.baseUrl}/api.php`
-		} );
 		return new Promise( ( resolve, reject ) => {
-			bot.request( {
+			this.getBot().request( {
 				ids: id,
 				action: 'wbgetentities',
-				token: bot.editToken
+				token: this.getBot().editToken
 			} ).then( ( response ) => {
 				resolve( response.entities[ id ] );
 			}, reject );
@@ -85,28 +74,25 @@ class WikibaseApi {
 	}
 
 	protectEntity( entityId ) {
-		const bot = new MWBot( {
-			apiUrl: `${browser.config.baseUrl}/api.php`
-		} );
 		let entityTitle;
 
-		return bot.request( {
+		return this.getBot().request( {
 			action: 'wbgetentities',
 			format: 'json',
 			ids: entityId,
 			props: 'info'
 		} ).then( ( getEntitiesResponse ) => {
 			entityTitle = getEntitiesResponse.entities[ entityId ].title;
-			return bot.loginGetEditToken( {
+			return this.getBot().loginGetEditToken( {
 				username: browser.config.mwUser,
 				password: browser.config.mwPwd
 			} );
 		} ).then( () => {
-			return bot.request( {
+			return this.getBot().request( {
 				action: 'protect',
 				title: entityTitle,
 				protections: 'edit=sysop',
-				token: bot.editToken
+				token: this.getBot().editToken
 			} );
 		} );
 	}
@@ -123,6 +109,17 @@ class WikibaseApi {
 		}
 	}
 
+	/**
+	 * Helpful if you want to reuse a bot with its edit/other tokens.
+	 *
+	 * @return {MWBot}
+	 */
+	getBot() {
+		return this.bot || new MWBot( {
+			apiUrl: `${browser.config.baseUrl}/api.php`
+		} );
+	}
+
 }
 
-module.exports = new WikibaseApi();
+module.exports = WikibaseApi;
