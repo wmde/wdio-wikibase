@@ -23,7 +23,7 @@
 	"peerDependencies": {
 		"mwbot": "^2.0.0",
 		"wdio-mediawiki": "^1.1.0",
-		"webdriverio": "^6.0"
+		"webdriverio": "^7.0"
 	},
 	"devDependencies": {
 		"eslint": "^6.2.2",
