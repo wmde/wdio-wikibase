@@ -12,7 +12,7 @@ class WikibaseApi {
 	 * Optional, but strongly recommended to have chronology protection.
 	 * @return {Promise}
 	 */
-	initialize( cpPosIndex ) {
+	async initialize( cpPosIndex ) {
 		const jar = request.jar();
 		if ( cpPosIndex ) {
 			const cookie = request.cookie( `cpPosIndex=${cpPosIndex}` );
@@ -26,13 +26,13 @@ class WikibaseApi {
 				jar: jar
 			}
 		);
-		return bot.loginGetEditToken( {
+		await bot.loginGetEditToken( {
 			username: browser.config.mwUser,
 			password: browser.config.mwPwd
-		} ).then( () => {
-			this.bot = bot;
-			return bot;
 		} );
+		this.bot = bot;
+
+		return bot;
 	}
 
 	/**
@@ -73,14 +73,14 @@ class WikibaseApi {
 
 		const bot = await this.getBot();
 
-		return bot.request( {
+		const response = await bot.request( {
 			action: 'wbeditentity',
 			new: 'item',
 			data: JSON.stringify( itemData ),
 			token: bot.editToken
-		} ).then( ( response ) => {
-			return response.entity.id;
 		} );
+
+		return response.entity.id;
 	}
 
 	async createProperty( datatype, data ) {
@@ -89,49 +89,41 @@ class WikibaseApi {
 		propertyData = Object.assign( {}, { datatype }, data );
 
 		const bot = await this.getBot();
-
-		return new Promise( ( resolve, reject ) => { // FIXME: I don't think this Promise is needed
-			bot.request( {
-				action: 'wbeditentity',
-				new: 'property',
-				data: JSON.stringify( propertyData ),
-				token: bot.editToken
-			} ).then( ( response ) => {
-				resolve( response.entity.id );
-			}, reject );
+		const response = await bot.request( {
+			action: 'wbeditentity',
+			new: 'property',
+			data: JSON.stringify( propertyData ),
+			token: bot.editToken
 		} );
+
+		return response.entity.id;
 	}
 
 	async getEntity( id ) {
 		const bot = await this.getBot();
-		return new Promise( ( resolve, reject ) => {
-			bot.request( {
-				ids: id,
-				action: 'wbgetentities',
-				token: bot.editToken
-			} ).then( ( response ) => {
-				resolve( response.entities[ id ] );
-			}, reject );
+		const response = await bot.request( {
+			ids: id,
+			action: 'wbgetentities',
+			token: bot.editToken
 		} );
+		return response.entities[ id ];
 	}
 
 	async protectEntity( entityId ) {
 		const bot = await this.getBot();
-		let entityTitle;
 
-		return bot.request( {
+		const getEntitiesResponse = await bot.request( {
 			action: 'wbgetentities',
 			format: 'json',
 			ids: entityId,
 			props: 'info'
-		} ).then( ( getEntitiesResponse ) => {
-			entityTitle = getEntitiesResponse.entities[ entityId ].title;
-			return bot.request( {
-				action: 'protect',
-				title: entityTitle,
-				protections: 'edit=sysop',
-				token: bot.editToken
-			} );
+		} );
+		const entityTitle = getEntitiesResponse.entities[ entityId ].title;
+		return bot.request( {
+			action: 'protect',
+			title: entityTitle,
+			protections: 'edit=sysop',
+			token: bot.editToken
 		} );
 	}
 
