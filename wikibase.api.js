@@ -1,8 +1,51 @@
 'use strict';
 
 const MWBot = require( 'mwbot' );
+const request = require( 'request' );
 
 class WikibaseApi {
+
+	/**
+	 * Initialize the API
+	 *
+	 * @param {string} [cpPosIndex] The value of the cpPosIndex browser cookie.
+	 * Optional, but strongly recommended to have chronology protection.
+	 * @return {Promise}
+	 */
+	initialize( cpPosIndex ) {
+		const jar = request.jar();
+		if ( cpPosIndex ) {
+			const cookie = request.cookie( `cpPosIndex=${cpPosIndex}` );
+			jar.setCookie( cookie, browser.config.baseUrl );
+		}
+		const bot = new MWBot(
+			{
+				apiUrl: `${browser.config.baseUrl}/api.php`
+			},
+			{
+				jar: jar
+			}
+		);
+		return bot.loginGetEditToken( {
+			username: browser.config.mwUser,
+			password: browser.config.mwPwd
+		} ).then( () => {
+			this.bot = bot;
+			return bot;
+		} );
+	}
+
+	/**
+	 * @return {Promise} resolving with MWBot
+	 */
+	getBot() {
+		if ( !this.bot ) {
+			console.trace( 'WARNING: WikibaseApi not initialized' );
+			return this.initialize();
+		}
+
+		return Promise.resolve( this.bot );
+	}
 
 	/**
 	 * Create an item
@@ -11,7 +54,7 @@ class WikibaseApi {
 	 * @param {Object} [data] Optional data to populate the item with
 	 * @return {Promise}
 	 */
-	createItem( label, data ) {
+	async createItem( label, data ) {
 		const itemData = {};
 		let labels = {};
 
@@ -28,51 +71,39 @@ class WikibaseApi {
 
 		Object.assign( itemData, { labels }, data );
 
-		const bot = new MWBot( {
-			apiUrl: `${browser.config.baseUrl}/api.php`
-		} );
+		const bot = await this.getBot();
 
-		return bot.getEditToken()
-			.then( () => {
-				return bot.request( {
-					action: 'wbeditentity',
-					new: 'item',
-					data: JSON.stringify( itemData ),
-					token: bot.editToken
-				} );
-			} ).then( ( response ) => {
-				return response.entity.id;
-			} );
+		return bot.request( {
+			action: 'wbeditentity',
+			new: 'item',
+			data: JSON.stringify( itemData ),
+			token: bot.editToken
+		} ).then( ( response ) => {
+			return response.entity.id;
+		} );
 	}
 
-	createProperty( datatype, data ) {
+	async createProperty( datatype, data ) {
 		let propertyData = {};
 
 		propertyData = Object.assign( {}, { datatype }, data );
 
-		const bot = new MWBot( {
-			apiUrl: `${browser.config.baseUrl}/api.php`
-		} );
+		const bot = await this.getBot();
 
-		return bot.getEditToken()
-			.then( () => {
-				return new Promise( ( resolve, reject ) => {
-					bot.request( {
-						action: 'wbeditentity',
-						new: 'property',
-						data: JSON.stringify( propertyData ),
-						token: bot.editToken
-					} ).then( ( response ) => {
-						resolve( response.entity.id );
-					}, reject );
-				} );
-			} );
+		return new Promise( ( resolve, reject ) => { // FIXME: I don't think this Promise is needed
+			bot.request( {
+				action: 'wbeditentity',
+				new: 'property',
+				data: JSON.stringify( propertyData ),
+				token: bot.editToken
+			} ).then( ( response ) => {
+				resolve( response.entity.id );
+			}, reject );
+		} );
 	}
 
-	getEntity( id ) {
-		const bot = new MWBot( {
-			apiUrl: `${browser.config.baseUrl}/api.php`
-		} );
+	async getEntity( id ) {
+		const bot = await this.getBot();
 		return new Promise( ( resolve, reject ) => {
 			bot.request( {
 				ids: id,
@@ -84,10 +115,8 @@ class WikibaseApi {
 		} );
 	}
 
-	protectEntity( entityId ) {
-		const bot = new MWBot( {
-			apiUrl: `${browser.config.baseUrl}/api.php`
-		} );
+	async protectEntity( entityId ) {
+		const bot = await this.getBot();
 		let entityTitle;
 
 		return bot.request( {
@@ -97,11 +126,6 @@ class WikibaseApi {
 			props: 'info'
 		} ).then( ( getEntitiesResponse ) => {
 			entityTitle = getEntitiesResponse.entities[ entityId ].title;
-			return bot.loginGetEditToken( {
-				username: browser.config.mwUser,
-				password: browser.config.mwPwd
-			} );
-		} ).then( () => {
 			return bot.request( {
 				action: 'protect',
 				title: entityTitle,
