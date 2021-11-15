@@ -14,3 +14,5 @@ To update or change the contents of this module, clone it locally and commit the
 ## Contributing
 
 Please file any bugs or issues with our issue-tracker at [phabricator.wikimedia.org](https://phabricator.wikimedia.org/maniphest/task/edit/form/1/?tags=Wikidata,Browser-Tests).
+
+For instruction of how to create a new release, please see [CONTRIBUTING.md](https://github.com/wmde/wdio-wikibase/blob/master/CONTRIBUTING.md)
