@@ -1,0 +1,19 @@
+name: Test and Deploy
+on: push
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 12
+      - name: Install
+        run: npm install
+      - name: Test
+        run: npm test
+      - uses: JS-DevTools/npm-publish@v1
+        with:
+          check-version: true
+          token: ${{ secrets.NPM_AUTH_TOKEN }}

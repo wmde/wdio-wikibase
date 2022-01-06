@@ -1,0 +1,19 @@
+name: Test
+on:
+  push:
+    branches: [master]
+jobs:
+  Test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: Setup
+        uses: actions/setup-node@v2
+        with:
+          node-version: "12.x"
+          cache: npm
+      - name: install
+        run: npm install
+      - name: Test
+        run: npm test
