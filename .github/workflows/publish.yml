@@ -1,19 +1,22 @@
-name: Test and Deploy
-on: push
-
+on:
+  release:
+    types: [ created ]
+name: Verify and Publish
 jobs:
   publish:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
         with:
-          node-version: 12
+          node-version: '12.x'
       - name: Install
-        run: npm install
+        run: npm ci
       - name: Test
         run: npm test
-      - uses: JS-DevTools/npm-publish@v1
-        with:
-          check-version: true
-          token: ${{ secrets.NPM_AUTH_TOKEN }}
+      - name: Publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+        run: |
+          echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_AUTH_TOKEN }}" > ~/.npmrc
+          npm publish --access public
