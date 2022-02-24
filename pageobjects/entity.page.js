@@ -5,7 +5,7 @@ class EntityPage extends Page {
 	open( entityId ) {
 		super.openTitle( `Special:EntityPage/${entityId}` );
 
-		browser.execute( () => {
+		browser.executeAsync( () => {
 			mw.cookie.set( 'wikibase-no-anonymouseditwarning', 'true' ); // eslint-disable-line no-undef
 		} );
 	}
