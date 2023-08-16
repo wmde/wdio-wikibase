@@ -99,8 +99,9 @@ class ItemPage extends PageMixture {
 		this.saveButton.click();
 	}
 
-	isSaveButtonEnabled() {
-		return $( this.constructor.ITEM_WIDGET_SELECTORS.SAVE_BUTTON ).getAttribute( 'aria-disabled' ) === 'false';
+	async isSaveButtonEnabled() {
+		return await $( this.constructor.ITEM_WIDGET_SELECTORS.SAVE_BUTTON )
+			.getAttribute( 'aria-disabled' ) === 'false';
 	}
 }
 
