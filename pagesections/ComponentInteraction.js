@@ -38,9 +38,9 @@ const ComponentInteraction = ( Base ) => class extends Base {
 		element.$( this.constructor.OOUI_SELECTORS.COMBOBOX_DROPDOWN ).click();
 	}
 
-	selectFirstSuggestedEntityOnEntitySelector() {
-		$( this.constructor.OOUI_SELECTORS.VISIBLE_ENTITY_SUGGESTION ).waitForDisplayed();
-		$( this.constructor.OOUI_SELECTORS.VISIBLE_ENTITY_SUGGESTION ).click();
+	async selectFirstSuggestedEntityOnEntitySelector() {
+		await $( this.constructor.OOUI_SELECTORS.VISIBLE_ENTITY_SUGGESTION ).waitForDisplayed();
+		await $( this.constructor.OOUI_SELECTORS.VISIBLE_ENTITY_SUGGESTION ).click();
 	}
 };
 
