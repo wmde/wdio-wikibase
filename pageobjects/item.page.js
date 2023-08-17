@@ -29,8 +29,8 @@ class ItemPage extends PageMixture {
 		};
 	}
 
-	open( entityId ) {
-		super.openTitle( `Special:EntityPage/${entityId}` );
+	async open( entityId ) {
+		await super.openTitle( `Special:EntityPage/${entityId}` );
 	}
 
 	get statements() {
