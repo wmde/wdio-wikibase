@@ -127,15 +127,14 @@ class WikibaseApi {
 		} );
 	}
 
-	getProperty( datatype ) {
+	async getProperty( datatype ) {
 		const envName = `WIKIBASE_PROPERTY_${datatype.toUpperCase()}`;
 		if ( envName in process.env ) {
-			return Promise.resolve( process.env[ envName ] );
+			return process.env[ envName ];
 		} else {
-			return this.createProperty( datatype ).then( ( propertyId ) => {
-				process.env[ envName ] = propertyId;
-				return propertyId;
-			} );
+			const propertyId = await this.createProperty( datatype );
+			process.env[ envName ] = propertyId;
+			return propertyId;
 		}
 	}
 
