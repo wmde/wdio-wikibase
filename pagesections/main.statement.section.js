@@ -116,9 +116,9 @@ const MainStatementSection = ( Base ) => class extends Base {
 	 * @param {int} index of the statement within the group
 	 * @param {string} propertyId
 	 */
-	clickSaveOnStatement( index, propertyId ) {
-		const statement = this.getStatementElement( index, propertyId );
-		this.clickSaveOnStatementElement( statement );
+	async clickSaveOnStatement( index, propertyId ) {
+		const statement = await this.getStatementElement( index, propertyId );
+		await this.clickSaveOnStatementElement( statement );
 	}
 
 	/**
@@ -127,9 +127,9 @@ const MainStatementSection = ( Base ) => class extends Base {
 	 * @param {int} index of the statement within the group
 	 * @param {string} propertyId
 	 */
-	clickCancelOnStatement( index, propertyId ) {
-		const statement = this.getStatementElement( index, propertyId );
-		this.clickCancelOnStatementElement( statement );
+	async clickCancelOnStatement( index, propertyId ) {
+		const statement = await this.getStatementElement( index, propertyId );
+		await this.clickCancelOnStatementElement( statement );
 	}
 
 	/**
@@ -138,14 +138,14 @@ const MainStatementSection = ( Base ) => class extends Base {
 	 * @private
 	 * @param {element} element
 	 */
-	clickSaveOnStatementElement( element ) {
+	async clickSaveOnStatementElement( element ) {
 		var self = this;
-		element.$( this.constructor.TOOLBAR_WIDGET_SELECTORS.SAVE_BUTTON ).waitUntil( function () {
-			return self.mainStatementsContainer.$(
+		await element.$( this.constructor.TOOLBAR_WIDGET_SELECTORS.SAVE_BUTTON ).waitUntil( async () => {
+			return await self.mainStatementsContainer.$(
 				self.constructor.TOOLBAR_WIDGET_SELECTORS.SAVE_BUTTON
 			).getAttribute( 'aria-disabled' ) === 'false';
 		} );
-		element.$( this.constructor.TOOLBAR_WIDGET_SELECTORS.SAVE_BUTTON ).click();
+		await element.$( this.constructor.TOOLBAR_WIDGET_SELECTORS.SAVE_BUTTON ).click();
 	}
 
 	/**
@@ -154,14 +154,14 @@ const MainStatementSection = ( Base ) => class extends Base {
 	 * @private
 	 * @param {element} element
 	 */
-	clickCancelOnStatementElement( element ) {
+	async clickCancelOnStatementElement( element ) {
 		var self = this;
-		element.$( this.constructor.TOOLBAR_WIDGET_SELECTORS.CANCEL_BUTTON ).waitUntil( function () {
-			return element.$(
+		await element.$( this.constructor.TOOLBAR_WIDGET_SELECTORS.CANCEL_BUTTON ).waitUntil( async () => {
+			return await element.$(
 				self.constructor.TOOLBAR_WIDGET_SELECTORS.CANCEL_BUTTON
 			).getAttribute( 'aria-disabled' ) === 'false';
 		} );
-		element.$( this.constructor.TOOLBAR_WIDGET_SELECTORS.CANCEL_BUTTON ).click();
+		await element.$( this.constructor.TOOLBAR_WIDGET_SELECTORS.CANCEL_BUTTON ).click();
 	}
 
 	/**
@@ -170,9 +170,9 @@ const MainStatementSection = ( Base ) => class extends Base {
 	 * @param {int} index
 	 * @param {string} propertyId
 	 */
-	clickEditOnStatement( index, propertyId ) {
-		const statement = this.getStatementElement( index, propertyId );
-		this.clickEditOnStatementElement( statement );
+	async clickEditOnStatement( index, propertyId ) {
+		const statement = await this.getStatementElement( index, propertyId );
+		await this.clickEditOnStatementElement( statement );
 	}
 
 	/**
@@ -181,9 +181,9 @@ const MainStatementSection = ( Base ) => class extends Base {
 	 * @private
 	 * @param {element} element
 	 */
-	clickEditOnStatementElement( element ) {
-		element.waitForExist( this.constructor.TOOLBAR_WIDGET_SELECTORS.EDIT_BUTTON );
-		element.$( this.constructor.TOOLBAR_WIDGET_SELECTORS.EDIT_BUTTON ).click();
+	async clickEditOnStatementElement( element ) {
+		await element.waitForExist( this.constructor.TOOLBAR_WIDGET_SELECTORS.EDIT_BUTTON );
+		await element.$( this.constructor.TOOLBAR_WIDGET_SELECTORS.EDIT_BUTTON ).click();
 	}
 
 	/**
@@ -193,15 +193,14 @@ const MainStatementSection = ( Base ) => class extends Base {
 	 * @param {string} propertyId
 	 * @param {string} value
 	 */
-	editStatementValue( index, propertyId, value ) {
-		this.clickEditOnStatement( index, propertyId );
-		this.mainStatementsContainer.$(
+	async editStatementValue( index, propertyId, value ) {
+		await this.clickEditOnStatement( index, propertyId );
+		const statementEditInput = this.mainStatementsContainer.$(
 			this.constructor.STATEMENT_WIDGET_SELECTORS.EDIT_INPUT_VALUE
-		).waitForDisplayed();
-		this.mainStatementsContainer.$(
-			this.constructor.STATEMENT_WIDGET_SELECTORS.EDIT_INPUT_VALUE
-		).setValue( value );
-		this.clickSaveOnStatement( index, propertyId );
+		);
+		await statementEditInput.waitForDisplayed();
+		await statementEditInput.setValue( value );
+		await this.clickSaveOnStatement( index, propertyId );
 	}
 
 	/**
@@ -210,10 +209,10 @@ const MainStatementSection = ( Base ) => class extends Base {
 	 * @private
 	 * @param {int} index
 	 * @param {string} propertyId
-	 * @return {element}
+	 * @return {Promise<element>}
 	 */
-	getStatementElement( index, propertyId ) {
-		return $( `#${propertyId}` ).$$( '.wikibase-statementview' )[ index ];
+	async getStatementElement( index, propertyId ) {
+		return await $( `#${propertyId}` ).$$( '.wikibase-statementview' )[ index ];
 	}
 
 };
