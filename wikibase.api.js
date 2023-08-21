@@ -10,7 +10,7 @@ class WikibaseApi {
 	 *
 	 * @param {string} [cpPosIndex] The value of the cpPosIndex browser cookie.
 	 * Optional, but strongly recommended to have chronology protection.
-	 * @return {Promise}
+	 * @return {Promise<MWBot>} resolving with MWBot
 	 */
 	async initialize( cpPosIndex ) {
 		const jar = request.jar();
@@ -36,7 +36,7 @@ class WikibaseApi {
 	}
 
 	/**
-	 * @return {Promise} resolving with MWBot
+	 * @return {Promise<MWBot>} resolving with MWBot
 	 */
 	getBot() {
 		if ( !this.bot ) {
@@ -50,9 +50,9 @@ class WikibaseApi {
 	/**
 	 * Create an item
 	 *
-	 * @param {(string|Object)} [label] Optional English label of the item or object containing all labels
+	 * @param {string|Object} [label] Optional English label of the item or object containing all labels
 	 * @param {Object} [data] Optional data to populate the item with
-	 * @return {Promise}
+	 * @return {Promise<string>} resolving with the id of the created item
 	 */
 	async createItem( label, data ) {
 		const itemData = {};
@@ -83,6 +83,13 @@ class WikibaseApi {
 		return response.entity.id;
 	}
 
+	/**
+	 * Create a property
+	 *
+	 * @param {string} datatype The datatype of the property
+	 * @param {Object} [data] Optional data to populate the property with
+	 * @return {Promise<string>} resolving with the id of the created property
+	 */
 	async createProperty( datatype, data ) {
 		let propertyData = {};
 
@@ -99,6 +106,10 @@ class WikibaseApi {
 		return response.entity.id;
 	}
 
+	/**
+	 * @param {string} id The id of the entity
+	 * @return {Promise<Object>} resolving with the requested entity
+	 */
 	async getEntity( id ) {
 		const bot = await this.getBot();
 		const response = await bot.request( {
@@ -109,6 +120,10 @@ class WikibaseApi {
 		return response.entities[ id ];
 	}
 
+	/**
+	 * @param {string} entityId The id of the entity
+	 * @return {Promise<Object>}
+	 */
 	async protectEntity( entityId ) {
 		const bot = await this.getBot();
 
@@ -127,6 +142,10 @@ class WikibaseApi {
 		} );
 	}
 
+	/**
+	 * @param {string} datatype
+	 * @return {Promise<string>} resolving with the id of the property
+	 */
 	async getProperty( datatype ) {
 		const envName = `WIKIBASE_PROPERTY_${datatype.toUpperCase()}`;
 		if ( envName in process.env ) {
