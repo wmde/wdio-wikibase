@@ -77,13 +77,13 @@ class ItemPage extends PageMixture {
 		return $( this.constructor.ITEM_WIDGET_SELECTORS.REFERENCE_VALUE );
 	}
 
-	async getNthQualifierPropertyInput( statement, qualifierIndex ) {
-		const qualifiers = await statement.$$( this.constructor.ITEM_WIDGET_SELECTORS.QUALIFIERS );
+	getNthQualifierPropertyInput( statement, qualifierIndex ) {
+		const qualifiers = statement.$$( this.constructor.ITEM_WIDGET_SELECTORS.QUALIFIERS );
 		return qualifiers[ qualifierIndex ].$( this.constructor.ITEM_WIDGET_SELECTORS.PROPERTY_INPUT );
 	}
 
-	async getNthReferencePropertyInput( statement, referenceIndex ) {
-		const references = await statement.$$( this.constructor.ITEM_WIDGET_SELECTORS.REFERENCES );
+	getNthReferencePropertyInput( statement, referenceIndex ) {
+		const references = statement.$$( this.constructor.ITEM_WIDGET_SELECTORS.REFERENCES );
 		return references[ referenceIndex ].$( this.constructor.ITEM_WIDGET_SELECTORS.PROPERTY_INPUT );
 	}
 
