@@ -77,26 +77,26 @@ class ItemPage extends PageMixture {
 		return $( this.constructor.ITEM_WIDGET_SELECTORS.REFERENCE_VALUE );
 	}
 
-	getNthQualifierPropertyInput( statement, qualifierIndex ) {
-		const qualifier = statement.$$( this.constructor.ITEM_WIDGET_SELECTORS.QUALIFIERS )[ qualifierIndex ];
-		return qualifier.$( this.constructor.ITEM_WIDGET_SELECTORS.PROPERTY_INPUT );
+	async getNthQualifierPropertyInput( statement, qualifierIndex ) {
+		const qualifiers = await statement.$$( this.constructor.ITEM_WIDGET_SELECTORS.QUALIFIERS );
+		return qualifiers[ qualifierIndex ].$( this.constructor.ITEM_WIDGET_SELECTORS.PROPERTY_INPUT );
 	}
 
-	getNthReferencePropertyInput( statement, referenceIndex ) {
-		const reference = statement.$$( this.constructor.ITEM_WIDGET_SELECTORS.REFERENCES )[ referenceIndex ];
-		return reference.$( this.constructor.ITEM_WIDGET_SELECTORS.PROPERTY_INPUT );
+	async getNthReferencePropertyInput( statement, referenceIndex ) {
+		const references = await statement.$$( this.constructor.ITEM_WIDGET_SELECTORS.REFERENCES );
+		return references[ referenceIndex ].$( this.constructor.ITEM_WIDGET_SELECTORS.PROPERTY_INPUT );
 	}
 
-	editItemDescription( description ) {
+	async editItemDescription( description ) {
 		// Wait for the frontend to fully initialize first, so that we don't click on
 		// the link to Special:SetLabelDescriptionAliases, but use the JS version.
-		this.addStatementLink.waitForExist( { timeout: 3000 } );
-		this.editButton.waitForExist( { timeout: 1000 } );
-		this.editButton.click();
-		this.descriptionInputField.waitForExist();
-		this.descriptionInputField.setValue( description );
-		this.saveButton.waitForExist( { timeout: 1000 } );
-		this.saveButton.click();
+		await this.addStatementLink.waitForExist( { timeout: 3000 } );
+		await this.editButton.waitForExist( { timeout: 1000 } );
+		await this.editButton.click();
+		await this.descriptionInputField.waitForExist();
+		await this.descriptionInputField.setValue( description );
+		await this.saveButton.waitForExist( { timeout: 1000 } );
+		await this.saveButton.click();
 	}
 
 	async isSaveButtonEnabled() {
