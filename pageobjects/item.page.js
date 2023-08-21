@@ -7,6 +7,11 @@ const Page = require( 'wdio-mediawiki/Page' ),
 	TaintedRefSection = require( '../pagesections/tainted.ref.section' ),
 	PageMixture = MixinBuilder.mix( Page ).with( MainStatementSection, ComponentInteraction, TaintedRefSection );
 
+/**
+ * @mixes MainStatementSectionMixin
+ * @mixes ComponentInteractionMixin
+ * @mixes TaintedRefSectionMixin
+ */
 class ItemPage extends PageMixture {
 	static get ITEM_WIDGET_SELECTORS() {
 		return {
@@ -33,60 +38,107 @@ class ItemPage extends PageMixture {
 		await super.openTitle( `Special:EntityPage/${entityId}` );
 	}
 
+	/**
+	 * @return {WebdriverIO.ElementArray}
+	 */
 	get statements() {
 		return $( this.constructor.ITEM_WIDGET_SELECTORS.MAIN_STATEMENTS ).$$( '.wikibase-statementgroupview' );
 	}
 
+	/**
+	 * @return {WebdriverIO.Element}
+	 */
 	get addStatementLink() {
 		return $( this.constructor.ITEM_WIDGET_SELECTORS.ADD_STATEMENT );
 	}
 
+	/**
+	 * @return {WebdriverIO.Element}
+	 */
 	get propertyInputField() {
 		return $( this.constructor.ITEM_WIDGET_SELECTORS.PROPERTY_INPUT );
 	}
 
+	/**
+	 * @return {WebdriverIO.Element}
+	 */
 	get valueInputField() {
 		return $( this.constructor.ITEM_WIDGET_SELECTORS.VALUE_INPUT );
 	}
 
+	/**
+	 * @return {WebdriverIO.Element}
+	 */
 	get editButton() {
 		return $( this.constructor.ITEM_WIDGET_SELECTORS.EDIT );
 	}
 
+	/**
+	 * @return {WebdriverIO.Element}
+	 */
 	get saveButton() {
 		return $( this.constructor.ITEM_WIDGET_SELECTORS.SAVE_BUTTON );
 	}
 
+	/**
+	 * @return {WebdriverIO.Element}
+	 */
 	get recentChanges() {
 		return $( this.constructor.ITEM_WIDGET_SELECTORS.RECENT_CHANGES );
 	}
 
+	/**
+	 * @return {WebdriverIO.Element}
+	 */
 	get lastChangeHistory() {
 		return $( this.constructor.ITEM_WIDGET_SELECTORS.LASTCHANGE_HISTORY );
 	}
 
+	/**
+	 * @return {WebdriverIO.Element}
+	 */
 	get descriptionInputField() {
 		return $( this.constructor.ITEM_WIDGET_SELECTORS.ITEM_DESCRIPTION_INPUT );
 	}
 
+	/**
+	 * @return {WebdriverIO.Element}
+	 */
 	get firstQualifier() {
 		return $( this.constructor.ITEM_WIDGET_SELECTORS.QUALIFIER_VALUE );
 	}
 
+	/**
+	 * @return {WebdriverIO.Element}
+	 */
 	get firstReference() {
 		return $( this.constructor.ITEM_WIDGET_SELECTORS.REFERENCE_VALUE );
 	}
 
+	/**
+	 * @param {WebdriverIO.Element} statement
+	 * @param {int} qualifierIndex
+	 * @return {WebdriverIO.Element}
+	 */
 	getNthQualifierPropertyInput( statement, qualifierIndex ) {
 		const qualifiers = statement.$$( this.constructor.ITEM_WIDGET_SELECTORS.QUALIFIERS );
 		return qualifiers[ qualifierIndex ].$( this.constructor.ITEM_WIDGET_SELECTORS.PROPERTY_INPUT );
 	}
 
+	/**
+	 * @param {WebdriverIO.Element} statement
+	 * @param {int} referenceIndex
+	 * @return {WebdriverIO.Element}
+	 */
 	getNthReferencePropertyInput( statement, referenceIndex ) {
 		const references = statement.$$( this.constructor.ITEM_WIDGET_SELECTORS.REFERENCES );
 		return references[ referenceIndex ].$( this.constructor.ITEM_WIDGET_SELECTORS.PROPERTY_INPUT );
 	}
 
+	/**
+	 * @param {string} description
+	 * @return {Promise<void>}
+	 */
 	async editItemDescription( description ) {
 		// Wait for the frontend to fully initialize first, so that we don't click on
 		// the link to Special:SetLabelDescriptionAliases, but use the JS version.
@@ -99,6 +151,9 @@ class ItemPage extends PageMixture {
 		await this.saveButton.click();
 	}
 
+	/**
+	 * @return {Promise<boolean>}
+	 */
 	async isSaveButtonEnabled() {
 		return await $( this.constructor.ITEM_WIDGET_SELECTORS.SAVE_BUTTON )
 			.getAttribute( 'aria-disabled' ) === 'false';
