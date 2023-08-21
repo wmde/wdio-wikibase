@@ -67,7 +67,7 @@ const MainStatementSection = ( Base ) => class extends Base {
 		var statement = await this.getStatementElement( index, propertyId ),
 			referencesContainer = await statement.$( '.wikibase-statementview-references-container' );
 
-		if ( !await referencesContainer.isDisplayed( this.constructor.TOOLBAR_WIDGET_SELECTORS.ADD_BUTTON ) ) {
+		if ( !( await referencesContainer.isDisplayed( this.constructor.TOOLBAR_WIDGET_SELECTORS.ADD_BUTTON ) ) ) {
 			await statement.$( '.wikibase-statementview-references-heading' ).click();
 			await statement.$( '.wikibase-statementview-references' ).waitForDisplayed();
 			await referencesContainer.$( this.constructor.TOOLBAR_WIDGET_SELECTORS.ADD_BUTTON ).waitForDisplayed();
