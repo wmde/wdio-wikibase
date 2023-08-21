@@ -2,10 +2,10 @@ const Page = require( 'wdio-mediawiki/Page' );
 
 class EntityPage extends Page {
 
-	open( entityId ) {
-		super.openTitle( `Special:EntityPage/${entityId}` );
+	async open( entityId ) {
+		await super.openTitle( `Special:EntityPage/${entityId}` );
 
-		browser.execute( () => {
+		await browser.execute( () => {
 			mw.cookie.set( 'wikibase-no-anonymouseditwarning', 'true' ); // eslint-disable-line no-undef
 		} );
 	}
