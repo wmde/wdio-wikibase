@@ -1,11 +1,11 @@
 'use strict';
 
-const Page = require( 'wdio-mediawiki/Page' ),
-	MixinBuilder = require( '../pagesections/mixinbuilder' ),
-	MainStatementSection = require( '../pagesections/main.statement.section' ),
-	ComponentInteraction = require( '../pagesections/ComponentInteraction' ),
-	TaintedRefSection = require( '../pagesections/tainted.ref.section' ),
-	PageMixture = MixinBuilder.mix( Page ).with( MainStatementSection, ComponentInteraction, TaintedRefSection );
+const Page = require( 'wdio-mediawiki/Page' );
+const MixinBuilder = require( '../pagesections/mixinbuilder' );
+const MainStatementSection = require( '../pagesections/main.statement.section' );
+const ComponentInteraction = require( '../pagesections/ComponentInteraction' );
+const TaintedRefSection = require( '../pagesections/tainted.ref.section' );
+const PageMixture = MixinBuilder.mix( Page ).with( MainStatementSection, ComponentInteraction, TaintedRefSection );
 
 /**
  * @mixes MainStatementSectionMixin
