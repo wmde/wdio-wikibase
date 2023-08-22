@@ -152,13 +152,9 @@ const MainStatementSection = ( Base ) => {
 		 * @param {WebdriverIO.Element} element
 		 */
 		async clickSaveOnStatementElement( element ) {
-			var self = this;
-			await element.$( this.constructor.TOOLBAR_WIDGET_SELECTORS.SAVE_BUTTON ).waitUntil( async () => {
-				return await self.mainStatementsContainer.$(
-					self.constructor.TOOLBAR_WIDGET_SELECTORS.SAVE_BUTTON
-				).getAttribute( 'aria-disabled' ) === 'false';
-			} );
-			await element.$( this.constructor.TOOLBAR_WIDGET_SELECTORS.SAVE_BUTTON ).click();
+			const saveButton = element.$( this.constructor.TOOLBAR_WIDGET_SELECTORS.SAVE_BUTTON );
+			await saveButton.waitUntil( async () => await saveButton.getAttribute( 'aria-disabled' ) === 'false' );
+			await saveButton.click();
 		}
 
 		/**
@@ -168,13 +164,9 @@ const MainStatementSection = ( Base ) => {
 		 * @param {WebdriverIO.Element} element
 		 */
 		async clickCancelOnStatementElement( element ) {
-			var self = this;
-			await element.$( this.constructor.TOOLBAR_WIDGET_SELECTORS.CANCEL_BUTTON ).waitUntil( async () => {
-				return await element.$(
-					self.constructor.TOOLBAR_WIDGET_SELECTORS.CANCEL_BUTTON
-				).getAttribute( 'aria-disabled' ) === 'false';
-			} );
-			await element.$( this.constructor.TOOLBAR_WIDGET_SELECTORS.CANCEL_BUTTON ).click();
+			const cancelButton = element.$( this.constructor.TOOLBAR_WIDGET_SELECTORS.CANCEL_BUTTON );
+			await cancelButton.waitUntil( async () => await cancelButton.getAttribute( 'aria-disabled' ) === 'false' );
+			await cancelButton.click();
 		}
 
 		/**
