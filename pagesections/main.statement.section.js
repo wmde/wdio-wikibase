@@ -51,24 +51,18 @@ const MainStatementSection = ( Base ) => {
 			await this.addMainStatementLink.waitForDisplayed();
 			await this.addMainStatementLink.click();
 
-			await this.mainStatementsContainer.$(
-				this.constructor.STATEMENT_WIDGET_SELECTORS.EDIT_INPUT_PROPERTY
-			).setValue( property );
+			const statement = this.mainStatementsContainer;
+			await statement.$( this.constructor.STATEMENT_WIDGET_SELECTORS.EDIT_INPUT_PROPERTY ).setValue( property );
 
 			await this.selectFirstSuggestedEntityOnEntitySelector();
 
-			await this.mainStatementsContainer.$(
-				this.constructor.STATEMENT_WIDGET_SELECTORS.EDIT_INPUT_VALUE
-			).waitForDisplayed();
-			await this.mainStatementsContainer.$(
-				this.constructor.STATEMENT_WIDGET_SELECTORS.EDIT_INPUT_VALUE
-			).setValue( value );
+			await statement.$( this.constructor.STATEMENT_WIDGET_SELECTORS.EDIT_INPUT_VALUE ).waitForDisplayed();
+			await statement.$( this.constructor.STATEMENT_WIDGET_SELECTORS.EDIT_INPUT_VALUE ).setValue( value );
 
-			await this.clickSaveOnStatementElement( this.mainStatementsContainer );
+			await this.clickSaveOnStatementElement( statement );
 
-			await this.mainStatementsContainer.$(
-				this.constructor.STATEMENT_WIDGET_SELECTORS.EDIT_INPUT_VALUE
-			).waitForExist( { reverse: true } );
+			await statement.$( this.constructor.STATEMENT_WIDGET_SELECTORS.EDIT_INPUT_VALUE )
+				.waitForExist( { reverse: true } );
 		}
 
 		/**
@@ -78,32 +72,28 @@ const MainStatementSection = ( Base ) => {
 		 * @param {string} referenceValue
 		 */
 		async addReferenceToNthStatementOfStatementGroup( index, propertyId, referenceProperty, referenceValue ) {
-			var statement = await this.getStatementElement( index, propertyId ),
-				referencesContainer = await statement.$( '.wikibase-statementview-references-container' );
+			const STATEMENT_WIDGET_SELECTORS = this.constructor.STATEMENT_WIDGET_SELECTORS;
+			const TOOLBAR_WIDGET_SELECTORS = this.constructor.TOOLBAR_WIDGET_SELECTORS;
 
-			if ( !await referencesContainer.isDisplayed( this.constructor.TOOLBAR_WIDGET_SELECTORS.ADD_BUTTON ) ) {
+			const statement = this.getStatementElement( index, propertyId );
+			const references = statement.$( '.wikibase-statementview-references-container' );
+
+			if ( !await references.isDisplayed( TOOLBAR_WIDGET_SELECTORS.ADD_BUTTON ) ) {
 				await statement.$( '.wikibase-statementview-references-heading' ).click();
 				await statement.$( '.wikibase-statementview-references' ).waitForDisplayed();
-				await referencesContainer.$( this.constructor.TOOLBAR_WIDGET_SELECTORS.ADD_BUTTON ).waitForDisplayed();
+				await references.$( TOOLBAR_WIDGET_SELECTORS.ADD_BUTTON ).waitForDisplayed();
 			}
-			await referencesContainer.$( this.constructor.TOOLBAR_WIDGET_SELECTORS.ADD_BUTTON ).click();
-			await referencesContainer.$( this.constructor.STATEMENT_WIDGET_SELECTORS.EDIT_INPUT_PROPERTY )
-				.waitForDisplayed();
-			await referencesContainer.$(
-				this.constructor.STATEMENT_WIDGET_SELECTORS.EDIT_INPUT_PROPERTY
-			).setValue( referenceProperty );
+			await references.$( TOOLBAR_WIDGET_SELECTORS.ADD_BUTTON ).click();
+			await references.$( STATEMENT_WIDGET_SELECTORS.EDIT_INPUT_PROPERTY ).waitForDisplayed();
+			await references.$( STATEMENT_WIDGET_SELECTORS.EDIT_INPUT_PROPERTY ).setValue( referenceProperty );
 
 			await this.selectFirstSuggestedEntityOnEntitySelector();
 
-			await referencesContainer.$( this.constructor.STATEMENT_WIDGET_SELECTORS.EDIT_INPUT_VALUE ).waitForExist();
-			await referencesContainer.$(
-				this.constructor.STATEMENT_WIDGET_SELECTORS.EDIT_INPUT_VALUE
-			).setValue( referenceValue );
+			await references.$( STATEMENT_WIDGET_SELECTORS.EDIT_INPUT_VALUE ).waitForExist();
+			await references.$( STATEMENT_WIDGET_SELECTORS.EDIT_INPUT_VALUE ).setValue( referenceValue );
 			await this.clickSaveOnStatementElement( statement );
 
-			await referencesContainer.$(
-				this.constructor.STATEMENT_WIDGET_SELECTORS.EDIT_INPUT_VALUE
-			).waitForExist( { reverse: true } );
+			await references.$( STATEMENT_WIDGET_SELECTORS.EDIT_INPUT_VALUE ).waitForExist( { reverse: true } );
 		}
 
 		/**
@@ -116,9 +106,7 @@ const MainStatementSection = ( Base ) => {
 		 * @return {{value: string}}
 		 */
 		getNthStatementDataFromMainStatementGroup( index, propertyId ) {
-			const statementGroup = $( `#${propertyId}` ),
-				statements = statementGroup.$$( '.wikibase-statementview' ),
-				statement = statements[ index ];
+			const statement = this.getStatementElement( index, propertyId );
 
 			return {
 				value: statement.$( this.constructor.STATEMENT_WIDGET_SELECTORS.STATEMENT_VALUE ).getText()
