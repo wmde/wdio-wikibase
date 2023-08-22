@@ -21,36 +21,32 @@ const ComponentInteraction = ( Base ) => {
 		 * @param {WebdriverIO.Element} element
 		 * @param {string|number} value
 		 */
-		setValueOnLookupElement( element, value ) {
-			element.$( 'input' ).setValue( value );
-			$( 'body' ).$( this.constructor.OOUI_SELECTORS.LOOKUP_OPTION_WIDGET ).waitForDisplayed();
-			$( this.constructor.OOUI_SELECTORS.LOOKUP_OPTION_WIDGET ).click();
+		async setValueOnLookupElement( element, value ) {
+			await element.$( 'input' ).setValue( value );
+			await $( 'body' ).$( this.constructor.OOUI_SELECTORS.LOOKUP_OPTION_WIDGET ).waitForDisplayed();
+			await $( this.constructor.OOUI_SELECTORS.LOOKUP_OPTION_WIDGET ).click();
 		}
 
 		/**
 		 * @param {WebdriverIO.Element} element
 		 * @param {string|number} value
 		 */
-		setSingleValueOnMultiselectElement( element, value ) {
-			element.$( 'input' ).setValue( value );
-			element.$( this.constructor.OOUI_SELECTORS.MULTI_OPTION_WIDGET ).waitForDisplayed();
-			element.$( this.constructor.OOUI_SELECTORS.MULTI_OPTION_WIDGET ).click();
+		async setSingleValueOnMultiselectElement( element, value ) {
+			await element.$( 'input' ).setValue( value );
+			await element.$( this.constructor.OOUI_SELECTORS.MULTI_OPTION_WIDGET ).waitForDisplayed();
+			await element.$( this.constructor.OOUI_SELECTORS.MULTI_OPTION_WIDGET ).click();
 		}
 
 		/**
 		 * @param {WebdriverIO.Element} element
 		 * @param {string|number} value
 		 */
-		setValueOnComboboxElement( element, value ) {
+		async setValueOnComboboxElement( element, value ) {
 			const OOUI_SELECTORS = this.constructor.OOUI_SELECTORS;
-			element.$( 'input' ).setValue( value );
-			browser.waitUntil( () => {
-				return browser.isDisplayed(
-					`${OOUI_SELECTORS.OVERLAY} ${OOUI_SELECTORS.OPTION_WIDGET_SELECTED}`
-				);
-			} );
+			await element.$( 'input' ).setValue( value );
+			await $( `${OOUI_SELECTORS.OVERLAY} ${OOUI_SELECTORS.OPTION_WIDGET_SELECTED}` ).waitForDisplayed();
 			// close suggestion overlay
-			element.$( OOUI_SELECTORS.COMBOBOX_DROPDOWN ).click();
+			await element.$( OOUI_SELECTORS.COMBOBOX_DROPDOWN ).click();
 		}
 
 		async selectFirstSuggestedEntityOnEntitySelector() {
