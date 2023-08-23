@@ -1,6 +1,6 @@
 {
 	"name": "wdio-wikibase",
-	"version": "5.2.0",
+	"version": "6.0.0",
 	"description": "WebdriverIO plugin for testing a Wikibase repo.",
 	"homepage": "https://github.com/wmde/wdio-wikibase",
 	"bugs": "https://phabricator.wikimedia.org/",
@@ -15,7 +15,7 @@
 		"wdio-plugin"
 	],
 	"engines": {
-		"node": ">=8.0"
+		"node": ">=16.0"
 	},
 	"scripts": {
 		"test": "eslint ."
