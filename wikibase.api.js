@@ -13,22 +13,23 @@ class WikibaseApi {
 	 * @return {Promise<MWBot>} resolving with MWBot
 	 */
 	async initialize( cpPosIndex ) {
+		const config = browser.config || browser.options;
 		const jar = request.jar();
 		if ( cpPosIndex ) {
 			const cookie = request.cookie( `cpPosIndex=${cpPosIndex}` );
-			jar.setCookie( cookie, browser.config.baseUrl );
+			jar.setCookie( cookie, config.baseUrl );
 		}
 		const bot = new MWBot(
 			{
-				apiUrl: `${browser.config.baseUrl}/api.php`
+				apiUrl: `${config.baseUrl}/api.php`
 			},
 			{
 				jar: jar
 			}
 		);
 		await bot.loginGetEditToken( {
-			username: browser.config.mwUser,
-			password: browser.config.mwPwd
+			username: config.mwUser,
+			password: config.mwPwd
 		} );
 		this.bot = bot;
 
