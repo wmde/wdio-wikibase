@@ -13,6 +13,11 @@ class WikibaseApi {
 	 * @return {Promise<MWBot>} resolving with MWBot
 	 */
 	async initialize( cpPosIndex ) {
+		console.log( 'Config', browser.config );
+		console.log( 'Options', browser.options );
+		console.log( 'Or', browser.config || browser.options );
+		console.log( 'Assign', Object.assign( browser.config || {}, browser.options || {} ) );
+		console.log( 'Assign Without', Object.assign( browser.config, browser.options ) );
 		const config = Object.assign( browser.config || {}, browser.options || {} );
 		const jar = request.jar();
 		if ( cpPosIndex ) {
