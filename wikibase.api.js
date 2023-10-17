@@ -13,7 +13,7 @@ class WikibaseApi {
 	 * @return {Promise<MWBot>} resolving with MWBot
 	 */
 	async initialize( cpPosIndex ) {
-		const config = browser.config || browser.options;
+		const config = Object.assign( browser.config || {}, browser.options || {} );
 		const jar = request.jar();
 		if ( cpPosIndex ) {
 			const cookie = request.cookie( `cpPosIndex=${cpPosIndex}` );
