@@ -10,14 +10,15 @@ class WikibaseApi {
 	 *
 	 * @param {string} [cpPosIndex] The value of the cpPosIndex browser cookie.
 	 * Optional, but strongly recommended to have chronology protection.
+	 * @param {string} [mwUser] Override mwUser argument.
+	 * Implemented due to the removal of mwUser from browser.options,
+	 * the replacement for browser.config.
+	 * @param {string} [mwPwd] Override mwPwd argument.
+	 * Implemented due to the removal of mwPwd from browser.options,
+	 * the replacement for browser.config.
 	 * @return {Promise<MWBot>} resolving with MWBot
 	 */
-	async initialize( cpPosIndex ) {
-		console.log( 'Config', browser.config );
-		console.log( 'Options', browser.options );
-		console.log( 'Or', browser.config || browser.options );
-		console.log( 'Assign', Object.assign( browser.config || {}, browser.options || {} ) );
-		console.log( 'Assign Without', Object.assign( browser.config, browser.options ) );
+	async initialize( cpPosIndex, mwUser, mwPwd ) {
 		const config = Object.assign( browser.config || {}, browser.options || {} );
 		const jar = request.jar();
 		if ( cpPosIndex ) {
@@ -33,8 +34,8 @@ class WikibaseApi {
 			}
 		);
 		await bot.loginGetEditToken( {
-			username: config.mwUser,
-			password: config.mwPwd
+			username: mwUser || config.mwUser,
+			password: mwPwd || config.mwPwd
 		} );
 		this.bot = bot;
 
