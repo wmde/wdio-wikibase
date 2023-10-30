@@ -1,6 +1,6 @@
 {
 	"name": "wdio-wikibase",
-	"version": "6.0.0",
+	"version": "6.0.1",
 	"description": "WebdriverIO plugin for testing a Wikibase repo.",
 	"homepage": "https://github.com/wmde/wdio-wikibase",
 	"bugs": "https://phabricator.wikimedia.org/",
@@ -23,7 +23,7 @@
 	"peerDependencies": {
 		"mwbot": "^2.0.0",
 		"wdio-mediawiki": "^2.0.0",
-		"webdriverio": "^7.0"
+		"webdriverio": "^7.0 || ^8.16"
 	},
 	"devDependencies": {
 		"eslint": "^6.2.2",
