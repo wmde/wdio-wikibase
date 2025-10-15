@@ -22,12 +22,12 @@ class WikibaseApi {
 		const config = Object.assign( browser.config || {}, browser.options || {} );
 		const jar = request.jar();
 		if ( cpPosIndex ) {
-			const cookie = request.cookie( `cpPosIndex=${cpPosIndex}` );
+			const cookie = request.cookie( `cpPosIndex=${ cpPosIndex }` );
 			jar.setCookie( cookie, config.baseUrl );
 		}
 		const bot = new MWBot(
 			{
-				apiUrl: `${config.baseUrl}/api.php`
+				apiUrl: `${ config.baseUrl }/api.php`
 			},
 			{
 				jar: jar
@@ -154,7 +154,7 @@ class WikibaseApi {
 	 * @return {Promise<string>} resolving with the id of the property
 	 */
 	async getProperty( datatype ) {
-		const envName = `WIKIBASE_PROPERTY_${datatype.toUpperCase()}`;
+		const envName = `WIKIBASE_PROPERTY_${ datatype.toUpperCase() }`;
 		if ( envName in process.env ) {
 			return process.env[ envName ];
 		} else {

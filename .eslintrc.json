@@ -14,6 +14,15 @@
 		"ecmaVersion": 2017
 	},
 	"rules": {
-		"max-len": [ "error", 120 ]
-	}
+		"max-len": [ "error", 120 ],
+		"jsdoc/no-undefined-types": [ "error", { "definedTypes": [ "Base", "WebdriverIO", "int" ] } ]
+	},
+	"overrides": [
+		{
+			"files": "package-lock.json",
+			"rules": {
+				"max-len": "off"
+			}
+		}
+	]
 }

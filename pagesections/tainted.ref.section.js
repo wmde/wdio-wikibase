@@ -1,3 +1,6 @@
+'use strict';
+
+// eslint-disable-next-line arrow-body-style
 const TaintedRefSection = ( Base ) => {
 	/** @extends Base */
 	return class TaintedRefSectionMixin extends Base {

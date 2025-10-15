@@ -1,5 +1,6 @@
 'use strict';
 
+// eslint-disable-next-line arrow-body-style
 const ComponentInteraction = ( Base ) => {
 	/** @extends Base */
 	return class ComponentInteractionMixin extends Base {
@@ -13,7 +14,7 @@ const ComponentInteraction = ( Base ) => {
 				OPTION_WIDGET_SELECTED: '.oo-ui-optionWidget-selected',
 				OVERLAY: '.oo-ui-defaultOverlay',
 				COMBOBOX_DROPDOWN: '.oo-ui-comboBoxInputWidget-dropdownButton',
-				VISIBLE_ENTITY_SUGGESTION: `//ul[contains(@class, "ui-suggester-list")][${visibleCondition}]//li`
+				VISIBLE_ENTITY_SUGGESTION: `//ul[contains(@class, "ui-suggester-list")][${ visibleCondition }]//li`
 			};
 		}
 
@@ -44,7 +45,7 @@ const ComponentInteraction = ( Base ) => {
 		async setValueOnComboboxElement( element, value ) {
 			const OOUI_SELECTORS = this.constructor.OOUI_SELECTORS;
 			await element.$( 'input' ).setValue( value );
-			await $( `${OOUI_SELECTORS.OVERLAY} ${OOUI_SELECTORS.OPTION_WIDGET_SELECTED}` ).waitForDisplayed();
+			await $( `${ OOUI_SELECTORS.OVERLAY } ${ OOUI_SELECTORS.OPTION_WIDGET_SELECTED }` ).waitForDisplayed();
 			// close suggestion overlay
 			await element.$( OOUI_SELECTORS.COMBOBOX_DROPDOWN ).click();
 		}
