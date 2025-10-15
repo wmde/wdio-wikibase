@@ -26,8 +26,8 @@
 		"webdriverio": "^7.0 || ^8.16"
 	},
 	"devDependencies": {
-		"eslint": "^6.2.2",
-		"eslint-config-wikimedia": "^0.13.1",
+		"eslint": "^9.32.0",
+		"eslint-config-wikimedia": "^0.31.0",
 		"request": "^2.88.2"
 	}
 }
