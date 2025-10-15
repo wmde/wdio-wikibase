@@ -22,8 +22,8 @@
 	},
 	"peerDependencies": {
 		"mwbot": "^2.0.0",
-		"wdio-mediawiki": "^2.0.0",
-		"webdriverio": "^7.0 || ^8.16"
+		"wdio-mediawiki": "^5.1.0",
+		"webdriverio": "^7.0 || ^8.16 || ^9"
 	},
 	"devDependencies": {
 		"eslint": "^6.2.2",
