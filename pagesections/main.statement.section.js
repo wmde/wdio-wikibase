@@ -1,5 +1,6 @@
 'use strict';
 
+// eslint-disable-next-line arrow-body-style
 const MainStatementSection = ( Base ) => {
 	/** @extends Base */
 	return class MainStatementSectionMixin extends Base {
@@ -204,7 +205,7 @@ const MainStatementSection = ( Base ) => {
 		 * @return {WebdriverIO.Element}
 		 */
 		getStatementElement( index, propertyId ) {
-			return $( `#${propertyId}` ).$$( '.wikibase-statementview' )[ index ];
+			return $( `#${ propertyId }` ).$$( '.wikibase-statementview' )[ index ];
 		}
 
 	};

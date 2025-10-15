@@ -5,14 +5,17 @@ const MixinBuilder = require( '../pagesections/mixinbuilder' );
 const MainStatementSection = require( '../pagesections/main.statement.section' );
 const ComponentInteraction = require( '../pagesections/ComponentInteraction' );
 const TaintedRefSection = require( '../pagesections/tainted.ref.section' );
+// eslint-disable-next-line es-x/no-array-prototype-with -- false positive
 const PageMixture = MixinBuilder.mix( Page ).with( MainStatementSection, ComponentInteraction, TaintedRefSection );
 
+/* eslint-disable jsdoc/no-undefined-types */
 /**
  * @mixes MainStatementSectionMixin
  * @mixes ComponentInteractionMixin
  * @mixes TaintedRefSectionMixin
  */
 class ItemPage extends PageMixture {
+	/* eslint-enable */
 	static get ITEM_WIDGET_SELECTORS() {
 		return {
 			MAIN_STATEMENTS: 'div.wikibase-entityview-main > .wikibase-statementgrouplistview',
@@ -35,7 +38,7 @@ class ItemPage extends PageMixture {
 	}
 
 	async open( entityId ) {
-		await super.openTitle( `Special:EntityPage/${entityId}` );
+		await super.openTitle( `Special:EntityPage/${ entityId }` );
 	}
 
 	/**
