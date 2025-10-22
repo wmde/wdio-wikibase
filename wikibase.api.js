@@ -10,32 +10,29 @@ class WikibaseApi {
 	 *
 	 * @param {string} [cpPosIndex] The value of the cpPosIndex browser cookie.
 	 * Optional, but strongly recommended to have chronology protection.
-	 * @param {string} [mwUser] Override mwUser argument.
-	 * Implemented due to the removal of mwUser from browser.options,
-	 * the replacement for browser.config.
-	 * @param {string} [mwPwd] Override mwPwd argument.
-	 * Implemented due to the removal of mwPwd from browser.options,
-	 * the replacement for browser.config.
+	 * @param {string} [mwUser] Override browser.options.capabilities[ 'mw:user' ]
+	 * (user name for logging into MediaWiki).
+	 * @param {string} [mwPwd] Override browser.options.capabilities[ 'mw:pwd' ]
+	 * (password for logging into MediaWiki).
 	 * @return {Promise<MWBot>} resolving with MWBot
 	 */
 	async initialize( cpPosIndex, mwUser, mwPwd ) {
-		const config = Object.assign( browser.config || {}, browser.options || {} );
 		const jar = request.jar();
 		if ( cpPosIndex ) {
 			const cookie = request.cookie( `cpPosIndex=${ cpPosIndex }` );
-			jar.setCookie( cookie, config.baseUrl );
+			jar.setCookie( cookie, browser.options.baseUrl );
 		}
 		const bot = new MWBot(
 			{
-				apiUrl: `${ config.baseUrl }/api.php`
+				apiUrl: `${ browser.options.baseUrl }/api.php`
 			},
 			{
 				jar: jar
 			}
 		);
 		await bot.loginGetEditToken( {
-			username: mwUser || config.mwUser,
-			password: mwPwd || config.mwPwd
+			username: mwUser || browser.options.capabilities[ 'mw:user' ],
+			password: mwPwd || browser.options.capabilities[ 'mw:pwd' ]
 		} );
 		this.bot = bot;
 
