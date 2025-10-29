@@ -1,6 +1,6 @@
 {
 	"name": "wdio-wikibase",
-	"version": "6.3.0",
+	"version": "6.4.0",
 	"description": "WebdriverIO plugin for testing a Wikibase repo.",
 	"homepage": "https://github.com/wmde/wdio-wikibase",
 	"bugs": "https://phabricator.wikimedia.org/",
