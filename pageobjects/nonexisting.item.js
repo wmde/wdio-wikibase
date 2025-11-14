@@ -1,6 +1,4 @@
-'use strict';
-
-const Page = require( 'wdio-mediawiki/Page' );
+import Page from 'wdio-mediawiki/Page.js';
 
 class NonExistingItemPage extends Page {
 	get editTab() {
@@ -16,4 +14,4 @@ class NonExistingItemPage extends Page {
 	}
 }
 
-module.exports = new NonExistingItemPage();
+export default new NonExistingItemPage();
