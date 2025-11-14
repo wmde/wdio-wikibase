@@ -1,5 +1,3 @@
-'use strict';
-
 // eslint-disable-next-line arrow-body-style
 const MainStatementSection = ( Base ) => {
 	/** @extends Base */
@@ -211,4 +209,4 @@ const MainStatementSection = ( Base ) => {
 	};
 };
 
-module.exports = MainStatementSection;
+export default MainStatementSection;

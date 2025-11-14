@@ -1,12 +1,10 @@
-'use strict';
-
-const Page = require( 'wdio-mediawiki/Page' );
-const MixinBuilder = require( '../pagesections/mixinbuilder' );
-const MainStatementSection = require( '../pagesections/main.statement.section' );
-const ComponentInteraction = require( '../pagesections/ComponentInteraction' );
-const TaintedRefSection = require( '../pagesections/tainted.ref.section' );
+import Page from 'wdio-mediawiki/Page.js';
+import { mix } from '../pagesections/mixinbuilder.js';
+import MainStatementSection from '../pagesections/main.statement.section.js';
+import ComponentInteraction from '../pagesections/ComponentInteraction.js';
+import TaintedRefSection from '../pagesections/tainted.ref.section.js';
 // eslint-disable-next-line es-x/no-array-prototype-with -- false positive
-const PageMixture = MixinBuilder.mix( Page ).with( MainStatementSection, ComponentInteraction, TaintedRefSection );
+const PageMixture = mix( Page ).with( MainStatementSection, ComponentInteraction, TaintedRefSection );
 
 /* eslint-disable jsdoc/no-undefined-types */
 /**
@@ -163,4 +161,4 @@ class ItemPage extends PageMixture {
 	}
 }
 
-module.exports = new ItemPage();
+export default new ItemPage();

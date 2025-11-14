@@ -1,7 +1,5 @@
-'use strict';
-
-const MWBot = require( 'mwbot' );
-const request = require( 'request' );
+import MWBot from 'mwbot';
+import request from 'request';
 
 class WikibaseApi {
 
@@ -163,4 +161,4 @@ class WikibaseApi {
 
 }
 
-module.exports = new WikibaseApi();
+export default new WikibaseApi();

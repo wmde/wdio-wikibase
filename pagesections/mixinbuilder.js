@@ -1,5 +1,3 @@
-'use strict';
-
 class MixinBuilder {
 
 	constructor( superclass ) {
@@ -11,6 +9,6 @@ class MixinBuilder {
 	}
 }
 
-module.exports = {
-	mix: ( superclass ) => new MixinBuilder( superclass )
-};
+export function mix( superclass ) {
+	return new MixinBuilder( superclass );
+}
