@@ -1,5 +1,3 @@
-'use strict';
-
 // eslint-disable-next-line arrow-body-style
 const ComponentInteraction = ( Base ) => {
 	/** @extends Base */
@@ -57,4 +55,4 @@ const ComponentInteraction = ( Base ) => {
 	};
 };
 
-module.exports = ComponentInteraction;
+export default ComponentInteraction;

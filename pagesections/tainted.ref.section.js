@@ -1,5 +1,3 @@
-'use strict';
-
 // eslint-disable-next-line arrow-body-style
 const TaintedRefSection = ( Base ) => {
 	/** @extends Base */
@@ -16,4 +14,4 @@ const TaintedRefSection = ( Base ) => {
 	};
 };
 
-module.exports = TaintedRefSection;
+export default TaintedRefSection;
