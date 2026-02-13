@@ -14,12 +14,12 @@ class WikibaseApi {
 	 * @return {Promise<Object>} resolving with the API client
 	 */
 	async initialize( cpPosIndex, mwUser, mwPwd ) {
-		this.client = await createApiClient();
+		this.api = await createApiClient();
 		await this.client.loginGetEditToken(
 			mwUser || browser.options.capabilities[ 'mw:user' ],
 			mwPwd || browser.options.capabilities[ 'mw:pwd' ]
 		);
-		return this.client;
+		return this.api;
 	}
 
 	/**
@@ -87,7 +87,7 @@ class WikibaseApi {
 			action: 'wbeditentity',
 			new: 'property',
 			data: JSON.stringify( propertyData ),
-			token: api.api.getEditToken()
+			token: api.getEditToken()
 		} );
 
 		return response.entity.id;
