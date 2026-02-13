@@ -15,7 +15,7 @@ class WikibaseApi {
 	 */
 	async initialize( cpPosIndex, mwUser, mwPwd ) {
 		this.client = await createApiClient();
-		await this.clieant.loginGetEditToken(
+		await this.client.loginGetEditToken(
 			mwUser || browser.options.capabilities[ 'mw:user' ],
 			mwPwd || browser.options.capabilities[ 'mw:pwd' ]
 		);
