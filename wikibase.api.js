@@ -14,11 +14,7 @@ class WikibaseApi {
 	 * @return {Promise<Object>} resolving with the API client
 	 */
 	async initialize( cpPosIndex, mwUser, mwPwd ) {
-		this.api = await createApiClient();
-		await this.api.loginGetEditToken(
-			mwUser || browser.options.capabilities[ 'mw:user' ],
-			mwPwd || browser.options.capabilities[ 'mw:pwd' ]
-		);
+		this.api = await createApiClient( { username: mwUser, password: mwPwd } );
 		return this.api;
 	}
 
