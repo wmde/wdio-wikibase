@@ -19,7 +19,7 @@ class WikibaseApi {
 	}
 
 	/**
-	 * @return {Promise<Object>} resolving with the API client
+	 * @return {Promise<Api>} resolving with the API client
 	 */
 	getApi() {
 		if ( !this.api ) {
