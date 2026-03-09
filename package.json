@@ -22,7 +22,7 @@
 		"test": "eslint ."
 	},
 	"peerDependencies": {
-		"wdio-mediawiki": "^6.0.0",
+		"wdio-mediawiki": "^6.4.0",
 		"webdriverio": "^9"
 	},
 	"devDependencies": {

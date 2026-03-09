@@ -14,7 +14,11 @@ class WikibaseApi {
 	 * @return {Promise<Object>} resolving with the API client
 	 */
 	async initialize( cpPosIndex, mwUser, mwPwd ) {
-		this.api = await createApiClient( { username: mwUser, password: mwPwd } );
+		this.api = await createApiClient( {
+			username: mwUser,
+			password: mwPwd,
+			cookies: cpPosIndex ? { cpPosIndex } : undefined
+		} );
 		return this.api;
 	}
 
@@ -60,7 +64,7 @@ class WikibaseApi {
 			action: 'wbeditentity',
 			new: 'item',
 			data: JSON.stringify( itemData ),
-			token: api.getEditToken()
+			token: await api.getEditToken()
 		} );
 
 		return response.entity.id;
@@ -83,7 +87,7 @@ class WikibaseApi {
 			action: 'wbeditentity',
 			new: 'property',
 			data: JSON.stringify( propertyData ),
-			token: api.getEditToken()
+			token: await api.getEditToken()
 		} );
 
 		return response.entity.id;
@@ -98,7 +102,7 @@ class WikibaseApi {
 		const response = await api.request( {
 			ids: id,
 			action: 'wbgetentities',
-			token: api.getEditToken()
+			token: await api.getEditToken()
 		} );
 		return response.entities[ id ];
 	}
@@ -121,7 +125,7 @@ class WikibaseApi {
 			action: 'protect',
 			title: entityTitle,
 			protections: 'edit=sysop',
-			token: api.getEditToken()
+			token: await api.getEditToken()
 		} );
 	}
 
