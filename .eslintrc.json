@@ -15,7 +15,7 @@
 	},
 	"rules": {
 		"max-len": [ "error", 120 ],
-		"jsdoc/no-undefined-types": [ "error", { "definedTypes": [ "Base", "WebdriverIO", "int" ] } ]
+		"jsdoc/no-undefined-types": [ "error", { "definedTypes": [ "Api", "Base", "WebdriverIO", "int" ] } ]
 	},
 	"overrides": [
 		{
