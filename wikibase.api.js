@@ -1,5 +1,4 @@
-import MWBot from 'mwbot';
-import request from 'request';
+import { createApiClient } from 'wdio-mediawiki/Api.js';
 
 class WikibaseApi {
 
@@ -12,41 +11,27 @@ class WikibaseApi {
 	 * (user name for logging into MediaWiki).
 	 * @param {string} [mwPwd] Override browser.options.capabilities[ 'mw:pwd' ]
 	 * (password for logging into MediaWiki).
-	 * @return {Promise<MWBot>} resolving with MWBot
+	 * @return {Promise<Object>} resolving with the API client
 	 */
 	async initialize( cpPosIndex, mwUser, mwPwd ) {
-		const jar = request.jar();
-		if ( cpPosIndex ) {
-			const cookie = request.cookie( `cpPosIndex=${ cpPosIndex }` );
-			jar.setCookie( cookie, browser.options.baseUrl );
-		}
-		const bot = new MWBot(
-			{
-				apiUrl: `${ browser.options.baseUrl }/api.php`
-			},
-			{
-				jar: jar
-			}
-		);
-		await bot.loginGetEditToken( {
-			username: mwUser || browser.options.capabilities[ 'mw:user' ],
-			password: mwPwd || browser.options.capabilities[ 'mw:pwd' ]
+		this.api = await createApiClient( {
+			username: mwUser,
+			password: mwPwd,
+			cookies: cpPosIndex ? { cpPosIndex } : undefined
 		} );
-		this.bot = bot;
-
-		return bot;
+		return this.api;
 	}
 
 	/**
-	 * @return {Promise<MWBot>} resolving with MWBot
+	 * @return {Promise<Api>} resolving with the API client
 	 */
-	getBot() {
-		if ( !this.bot ) {
+	getApi() {
+		if ( !this.api ) {
 			console.trace( 'WARNING: WikibaseApi not initialized' );
 			return this.initialize();
 		}
 
-		return Promise.resolve( this.bot );
+		return Promise.resolve( this.api );
 	}
 
 	/**
@@ -73,13 +58,13 @@ class WikibaseApi {
 
 		Object.assign( itemData, { labels }, data );
 
-		const bot = await this.getBot();
+		const api = await this.getApi();
 
-		const response = await bot.request( {
+		const response = await api.request( {
 			action: 'wbeditentity',
 			new: 'item',
 			data: JSON.stringify( itemData ),
-			token: bot.editToken
+			token: await api.getEditToken()
 		} );
 
 		return response.entity.id;
@@ -97,12 +82,12 @@ class WikibaseApi {
 
 		propertyData = Object.assign( {}, { datatype }, data );
 
-		const bot = await this.getBot();
-		const response = await bot.request( {
+		const api = await this.getApi();
+		const response = await api.request( {
 			action: 'wbeditentity',
 			new: 'property',
 			data: JSON.stringify( propertyData ),
-			token: bot.editToken
+			token: await api.getEditToken()
 		} );
 
 		return response.entity.id;
@@ -113,11 +98,11 @@ class WikibaseApi {
 	 * @return {Promise<Object>} resolving with the requested entity
 	 */
 	async getEntity( id ) {
-		const bot = await this.getBot();
-		const response = await bot.request( {
+		const api = await this.getApi();
+		const response = await api.request( {
 			ids: id,
 			action: 'wbgetentities',
-			token: bot.editToken
+			token: await api.getEditToken()
 		} );
 		return response.entities[ id ];
 	}
@@ -127,20 +112,20 @@ class WikibaseApi {
 	 * @return {Promise<Object>}
 	 */
 	async protectEntity( entityId ) {
-		const bot = await this.getBot();
+		const api = await this.getApi();
 
-		const getEntitiesResponse = await bot.request( {
+		const getEntitiesResponse = await api.request( {
 			action: 'wbgetentities',
 			format: 'json',
 			ids: entityId,
 			props: 'info'
 		} );
 		const entityTitle = getEntitiesResponse.entities[ entityId ].title;
-		return bot.request( {
+		return api.request( {
 			action: 'protect',
 			title: entityTitle,
 			protections: 'edit=sysop',
-			token: bot.editToken
+			token: await api.getEditToken()
 		} );
 	}
 
